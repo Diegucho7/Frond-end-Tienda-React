@@ -19,7 +19,7 @@ export const productsTablecolumns: ColumnDef<ProductsTableProductType>[] = [
       const { productImage } = original;
       return (
         <Link
-          to="/apps/e-commerce/customer/product-details"
+          to={`/apps/e-commerce/customer/product-details`}
           className="rounded-2 border border-translucent d-inline-block"
         >
           <img src={productImage} alt="" width={53} />
@@ -39,7 +39,7 @@ export const productsTablecolumns: ColumnDef<ProductsTableProductType>[] = [
       const { product } = original;
       return (
         <Link
-          to="/apps/e-commerce/customer/product-details"
+          to={`/apps/e-commerce/customer/product-details/${original.idProduct}`}
           className="fw-semibold line-clamp-3"
         >
           {product}
@@ -61,7 +61,7 @@ export const productsTablecolumns: ColumnDef<ProductsTableProductType>[] = [
       return price
         ? currencyFormat(price)
         : // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          `${currencyFormat(priceMin!)} - ${currencyFormat(priceMax!)}`;
+        `${currencyFormat(priceMin!)} - ${currencyFormat(priceMax!)}`;
     },
     meta: {
       headerProps: { style: { width: 150 }, className: 'ps-4 text-end' },

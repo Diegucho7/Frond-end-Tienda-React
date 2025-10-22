@@ -15,7 +15,7 @@ const ProductGallery = ({ images }: { images: string[] }) => {
         <Swiper
           direction={
             (breakpoints.down('md') && !breakpoints.up('md')) ||
-            (breakpoints.up('lg') && breakpoints.down('xl'))
+              (breakpoints.up('lg') && breakpoints.down('xl'))
               ? 'horizontal'
               : 'vertical'
           }

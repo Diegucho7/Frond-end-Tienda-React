@@ -22,76 +22,91 @@ const AddProduct = () => {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [stock, setStock] = useState('');
-
+  const [regularPrice, setRegularPrice] = useState('');
   const [marca, setMarca] = useState('');
   const [code, setCode] = useState('');
   const [category, setCategory] = useState('');
   const [salePrice, setSalePrice] = useState('');
+  const [productFiles, setProductFiles] = useState<File[]>([]);
 
   const agregarProducto = async () => {
-    console.log('Datos enviados:', {
-      name,
-      code: 'justcode',
-      marca: 'marca',
-      category: '82fa7496-dc5b-11ef-93cc-9c81b2f8c3e7',
-      price,
-      description
-    });
-    console.log('Agregando producto...');
+    try {
+      // 1️⃣ Crear producto
+      const productoId = await crearProducto();
+
+      // 2️⃣ Subir imágenes solo si hay archivos
+      if (productFiles.length > 0) {
+        await subirImagenes(productoId);
+      }
+
+      alert('Producto y sus imágenes se subieron correctamente');
+    } catch (error: any) {
+      alert('Error al subir producto: ' + error.message);
+    }
+  };
+
+  const subirImagenes = async (productoId: string) => {
+    try {
+      const formData = new FormData();
+      productFiles.forEach((file) => {
+        formData.append('imagenes', file);
+      });
+
+      const response = await fetch(`http://localhost:3000/api/uploads/productos/${productoId}`, {
+        method: 'PUT',
+        body: formData,
+        headers: {
+          'x-token': localStorage.getItem('accessToken') ?? ''
+        }
+      });
+
+      const data = await response.json();
+      if (!data.ok) {
+        throw new Error(data.msg || 'Error al subir imágenes');
+      }
+      return data;
+    } catch (error: any) {
+      console.error('Error al subir imágenes:', error);
+      throw error;
+    }
+  };
+
+  const crearProducto = async () => {
     try {
       const response = await fetch('http://localhost:3000/api/productos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-token': localStorage.getItem('accessToken') ?? '',
+          'x-token': localStorage.getItem('accessToken') ?? ''
         },
         body: JSON.stringify({
           name,
           code,
-          marca: 'marca',
+          marca: "Maers34",
           category: '82fa7496-dc5b-11ef-93cc-9c81b2f8c3e7',
           price,
+          regularPrice: 3,
           description,
           stock
-        }),
+        })
       });
 
+      const data = await response.json(); // ✅ solo una vez
+      console.log('Respuesta bruta del backend:', data);
 
-      const productData = {
-        name,
-        code,
-        description,
-        price,
-        stock
-      };
-
-      console.log(productData);
-      console.log('Datos enviados:', {
-        name,
-        code,
-        marca: 'marca',
-        category: '82fa7496-dc5b-11ef-93cc-9c81b2f8c3e7',
-        price,
-        description,
-        stock: 100
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Error al agregar el producto');
+      if (!response.ok || !data.ok) {
+        throw new Error(data.msg || 'Error al crear producto');
       }
 
-      const data = await response.json();
-      console.log('Producto agregado:', data);
+      const productoId = data.producto?.IdProduct;
+      console.log('🆔 ID del producto creado:', productoId);
+      return productoId;
 
-    } catch (err: any) {
-
-      console.error('Error completo:', err);
-      console.error('Error message:', err.message);
+    } catch (error: any) {
+      console.error('⚠️ Error al crear producto:', error);
+      throw error;
     }
   };
-
-
-
   return (
     <div>
       <PageBreadcrumb items={defaultBreadcrumbItems} />
@@ -143,6 +158,8 @@ const AddProduct = () => {
                 accept={{
                   'image/*': ['.png', '.gif', '.jpeg', '.jpg']
                 }}
+                multiple={true}
+                setPhotos={setProductFiles}
               />
             </div>
             <div>

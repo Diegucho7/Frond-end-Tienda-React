@@ -1092,8 +1092,12 @@ const routes: RouteObject[] = [
             element: <Homepage />
           },
           {
-            path: 'product-details',
-            element: <ProductDetails />
+            path: 'product-details/:id',
+            element: (
+              <Suspense key="product-details" fallback={<PhoenixLoader />}>
+                <ProductDetails />
+              </Suspense>
+            )
           },
           {
             path: 'cart',

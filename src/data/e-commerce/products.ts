@@ -66,6 +66,25 @@ export type ProductReviewType = {
   };
 };
 
+export type ProductoType = {
+  ok: boolean,
+  products: productoDetail[]
+}
+export type ProductDescriptionProps = {
+  products: productoDetail[];
+}
+export type productoDetail = {
+  IdProduct: string,
+  code: string,
+  name: string,
+  marca: string,
+  category: string,
+  price: string,
+  stock: number,
+  description: string,
+  image: null,
+  imagenes: string[]
+}
 export type CartItemType = {
   id: number | string;
   name: string;
@@ -96,6 +115,7 @@ export type StoreProductType = {
 };
 
 export type ProductsTableProductType = {
+  idProduct: string;
   product: string;
   productImage: string;
   price?: number;
@@ -558,6 +578,7 @@ export const allProducts: Product[] = [
 
 export const productsTableData: ProductsTableProductType[] = [
   {
+    idProduct: '681d5655-adaf-11f0-b33c-88c237c94b1c',
     product:
       'Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands...',
     productImage: product1,
@@ -569,6 +590,7 @@ export const productsTableData: ProductsTableProductType[] = [
     publishedOn: 'Nov 12, 10:45 PM'
   },
   {
+    idProduct: '870574e5-ad76-11f0-b33c-88c237c94b1c',
     product: 'iPhone 13 pro max-Pacific Blue-128GB storage',
     productImage: product2,
     price: 87,
@@ -579,6 +601,7 @@ export const productsTableData: ProductsTableProductType[] = [
     publishedOn: 'Nov 11, 7:36 PM'
   },
   {
+    idProduct: '9a5f4e1e-ad76-11f0-b33c-88c237c94b1c',
     product: 'Apple MacBook Pro 13 inch-M1-8/256GB-space',
     productImage: product3,
     price: 9,
@@ -589,6 +612,7 @@ export const productsTableData: ProductsTableProductType[] = [
     publishedOn: 'Nov 11, 8:16 AM'
   },
   {
+    idProduct: '9a5f4e1e-ad76-11f0-b33c-88c237c94b1c',
     product: 'Apple iMac 24" 4K Retina Display M1 8 Core CPU...',
     productImage: product4,
     priceMin: 8,
@@ -600,6 +624,7 @@ export const productsTableData: ProductsTableProductType[] = [
     publishedOn: 'Nov 8, 6:39 PM'
   },
   {
+    idProduct: '9a5f4e1e-ad76-11f0-b33c-88c237c94b1c',
     product: 'Razer Kraken v3 x Wired 7.1 Surroung Sound Gaming headset',
     productImage: product5,
     price: 120,
@@ -610,6 +635,7 @@ export const productsTableData: ProductsTableProductType[] = [
     publishedOn: 'Nov 8, 5:32 PM'
   },
   {
+    idProduct: '9a5f4e1e-ad76-11f0-b33c-88c237c94b1c',
     product: 'PlayStation 5 DualSense Wireless Controller',
     productImage: product6,
     price: 239,
@@ -620,6 +646,7 @@ export const productsTableData: ProductsTableProductType[] = [
     publishedOn: 'Nov 6, 11:34 PM'
   },
   {
+    idProduct: '9a5f4e1e-ad76-11f0-b33c-88c237c94b1c',
     product: '2021 Apple 12.9-inch iPad Pro (Wi‑Fi, 128GB) - Space Gray',
     productImage: product7,
     price: 4,
@@ -630,6 +657,8 @@ export const productsTableData: ProductsTableProductType[] = [
     publishedOn: 'Nov 1, 7:45 AM'
   },
   {
+    idProduct: '9a5f4e1e-ad76-11f0-b33c-88c237c94b1c',
+
     product: 'Amazon Basics Matte Black Wired Keyboard - US Layout (QWERTY)',
     productImage: product8,
     price: 98,
@@ -640,6 +669,8 @@ export const productsTableData: ProductsTableProductType[] = [
     publishedOn: 'Nov 3, 12:27 PM'
   },
   {
+    idProduct: '9a5f4e1e-ad76-11f0-b33c-88c237c94b1c',
+
     product: 'Apple Magic Mouse (Wireless, Rechargable) - Silver',
     productImage: product10,
     price: 568,
@@ -650,6 +681,8 @@ export const productsTableData: ProductsTableProductType[] = [
     publishedOn: 'Nov 1, 9:39 AM'
   },
   {
+    idProduct: '9a5f4e1e-ad76-11f0-b33c-88c237c94b1c',
+
     product: 'HORI Racing Wheel Apex for PlayStation 4_3, and PC',
     productImage: product12,
     price: 17,
@@ -660,6 +693,7 @@ export const productsTableData: ProductsTableProductType[] = [
     publishedOn: 'Oct 30, 3:49 PM'
   },
   {
+    idProduct: '9a5f4e1e-ad76-11f0-b33c-88c237c94b1c',
     product: 'Apple Pencil (2nd Generation)',
     productImage: product21,
     price: 28,
@@ -670,6 +704,7 @@ export const productsTableData: ProductsTableProductType[] = [
     publishedOn: 'Nov 25, 5:00 PM'
   },
   {
+    idProduct: '9a5f4e1e-ad76-11f0-b33c-88c237c94b1c',
     product: 'Apple AirPods (2nd Generation)',
     productImage: product16,
     price: 20,
@@ -680,6 +715,7 @@ export const productsTableData: ProductsTableProductType[] = [
     publishedOn: 'Sep 20, 1:00 PM'
   },
   {
+    idProduct: '9a5f4e1e-ad76-11f0-b33c-88c237c94b1c',
     product: 'Xbox Series S',
     productImage: product17,
     price: 30,
@@ -690,6 +726,7 @@ export const productsTableData: ProductsTableProductType[] = [
     publishedOn: 'Oct 18, 3:40 PM'
   },
   {
+    idProduct: '9a5f4e1e-ad76-11f0-b33c-88c237c94b1c',
     product: 'Seagate Portable 2TB External Hard Drive Portable HDD',
     productImage: product18,
     price: 50,
@@ -700,6 +737,7 @@ export const productsTableData: ProductsTableProductType[] = [
     publishedOn: 'Sep 20, 1:00 PM'
   },
   {
+    idProduct: '9a5f4e1e-ad76-11f0-b33c-88c237c94b1c',
     product:
       'Intel Core i9-11900K Desktop Processor 8 Cores up to 5.3 GHz Unlocked',
     productImage: product19,
@@ -711,6 +749,8 @@ export const productsTableData: ProductsTableProductType[] = [
     publishedOn: 'Dec 01, 12:00 PM'
   },
   {
+    idProduct: '9a5f4e1e-ad76-11f0-b33c-88c237c94b1c',
+
     product: 'ASUS TUF Gaming F15 Gaming Laptop',
     productImage: product20,
     price: 150,

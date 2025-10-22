@@ -86,8 +86,9 @@ const Products = () => {
 
         const json = await response.json();
         const mappedProducts: ProductsTableProductType[] = json.products.map((item: any) => ({
+          idProduct: item.IdProduct,
           product: item.name,
-          productImage: `http://localhost:3000/api/uploads/productos/${item.image}`, // ajusta si tienes otra ruta
+          productImage: `http://localhost:3000/api/uploads/productos/${item.imagenes[0]}`, // ajusta si tienes otra ruta
           price: parseFloat(item.price),
           category: item.marca, // puedes reemplazar con el nombre si tienes un mapa de categorías
           tags: [item.marca], // podrías agregar tags desde item.description si quieres

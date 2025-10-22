@@ -72,7 +72,7 @@ const navItems: NavItemType[] = [
   }
 ];
 
-const InventoryTab = ({ price, setPrice, stock, setStock }: any) => {
+const InventoryTab = ({ price, setPrice, stock, setStock, regularPrice, setRegularPrice }: any) => {
   return (
     <Tab.Container id="left-tabs-example" defaultActiveKey="pricing">
       <Row className="g-0 border-top border-bottom">
@@ -95,7 +95,7 @@ const InventoryTab = ({ price, setPrice, stock, setStock }: any) => {
               <Row className="g-3">
                 <Col xs={12} lg={6}>
                   <h5 className="mb-2 text-body-highlight">Regular price</h5>
-                  <Form.Control type="text" placeholder="$$$" />
+                  <Form.Control type="text" placeholder="$$$" value={regularPrice} onChange={e => setRegularPrice(e.target.value)} />
                 </Col>
                 <Col xs={12} lg={6}>
                   <h5 className="mb-2 text-body-highlight">Sale price</h5>

@@ -5,16 +5,22 @@ import ProductColorNav from 'components/navs/ProductColorNav';
 import { productColorVariants } from 'data/e-commerce';
 import { currencyFormat } from 'helpers/utils';
 import ProductGallery from 'components/modules/e-commerce/ProductGallery';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect, use } from 'react';
 import { Col, Row, Stack } from 'react-bootstrap';
 import { Link } from 'react-router';
 import QuantityButtons from 'components/common/QuantityButtons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faShareAlt, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { ProductDescriptionProps } from 'data/e-commerce/products';
 
-const ProductDescription = () => {
+const ProductDescription = ({ products }: ProductDescriptionProps) => {
+
+
   const [selectedVariantKey, setSelectedVariantKey] = useState('blue');
   const [quantity, setQuantity] = useState(1);
+
+
+
 
   const selectedVariant = useMemo(() => {
     return productColorVariants.find(
@@ -25,7 +31,15 @@ const ProductDescription = () => {
   return (
     <Row className="g-5 mb-5 mb-lg-8">
       <Col xs={12} lg={6}>
-        {selectedVariant && <ProductGallery images={selectedVariant.images} />}
+        {selectedVariant && products?.length ? (
+          <ProductGallery
+            images={products[0].imagenes.map(
+              img => `http://localhost:3000/api/uploads/productos/${img}`
+            )}
+          />
+        ) : (
+          <p>No hay imágenes disponibles</p>
+        )}
         <div className="d-flex">
           <Button
             variant="outline-warning"
@@ -57,8 +71,7 @@ const ProductDescription = () => {
               </p>
             </div>
             <h3 className="mb-3 lh-sm">
-              24" iMac® with Retina 4.5K display - Apple M1 8GB Memory - 256GB
-              SSD - w/Touch ID (Latest Model) - Blue
+              {products[0].name || 'Product Name Not Available'}
             </h3>
             <div className="d-flex flex-wrap align-items-start mb-3">
               <span className="badge bg-success fs-9 rounded-pill me-2 fw-semibold">
@@ -69,9 +82,9 @@ const ProductDescription = () => {
               </Link>
             </div>
             <div className="d-flex flex-wrap align-items-center">
-              <h1 className="me-3">{currencyFormat(1349.99)}</h1>
+              <h1 className="me-3">{currencyFormat(Number(products[0].price) || 0)}</h1>
               <p className="text-body-quaternary text-decoration-line-through fs-6 mb-0 me-3">
-                {currencyFormat(1499.99)}
+                {currencyFormat(Number(products[0].price) + 100 || 0)}
               </p>
               <p className="text-warning-dark fw-bolder fs-6 mb-0">10% off</p>
             </div>
