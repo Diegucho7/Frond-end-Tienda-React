@@ -39,7 +39,9 @@ export const productsTablecolumns: ColumnDef<ProductsTableProductType>[] = [
       const { product } = original;
       return (
         <Link
-          to={`/apps/e-commerce/customer/product-details/${original.idProduct}`}
+          to={`/apps/e-commerce/admin/edit-product/${original.idProduct}`}
+          // to={`/apps/e-commerce/customer/product-details/${original.idProduct}`}
+
           className="fw-semibold line-clamp-3"
         >
           {product}

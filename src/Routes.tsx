@@ -70,6 +70,8 @@ import FavoriteStores from 'pages/apps/e-commerce/customer/FavoriteStores';
 import Invoice from 'pages/apps/e-commerce/customer/Invoice';
 import OrderTracking from 'pages/apps/e-commerce/customer/OrderTracking';
 import AddProduct from 'pages/apps/e-commerce/admin/AddProduct';
+import EditProduct from 'pages/apps/e-commerce/admin/EditProduct';
+
 import Products from 'pages/apps/e-commerce/admin/Products';
 import Customers from 'pages/apps/e-commerce/admin/Customers';
 import Orders from 'pages/apps/e-commerce/admin/Orders';
@@ -304,6 +306,10 @@ const routes: RouteObject[] = [
                   {
                     path: 'add-product',
                     element: <AddProduct />
+                  },
+                  {
+                    path: 'edit-product/:id',
+                    element: <EditProduct />
                   },
                   {
                     path: 'products',

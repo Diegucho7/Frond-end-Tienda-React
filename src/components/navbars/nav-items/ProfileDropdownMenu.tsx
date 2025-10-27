@@ -38,7 +38,7 @@ const ProfileDropdownMenu = ({ className }: { className?: string }) => {
         });
 
         if (!response.ok) {
-          console.error('Error al renovar el token');
+          // console.error('Error al renovar el token');
           throw new Error('Error al renovar el token');
         }
 
@@ -49,7 +49,7 @@ const ProfileDropdownMenu = ({ className }: { className?: string }) => {
         setUser(data.usuario[0]);
         localStorage.setItem('accessToken', data.token);
       } catch (error) {
-        console.error('Error al renovar el token:', error);
+        // console.error('Error al renovar el token:', error);dd
       }
     };
 
