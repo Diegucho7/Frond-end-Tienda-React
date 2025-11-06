@@ -112,7 +112,7 @@ export const routes: RouteItems[] = [
             pages: [
               {
                 name: 'add-product',
-                path: '/apps/e-commerce/admin/edit-product',
+                path: '/apps/e-commerce/admin/add-product',
                 pathName: 'e-commerce-add-product',
                 active: true
               },

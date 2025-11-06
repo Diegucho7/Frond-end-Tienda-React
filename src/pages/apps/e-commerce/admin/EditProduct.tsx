@@ -28,13 +28,15 @@ const EditProduct = () => {
     const [code, setCode] = useState('');
     const [category, setCategory] = useState('');
     const [salePrice, setSalePrice] = useState('');
-    const [productFiles, setProductFiles] = useState<File[]>([]);
+    const [productFiles, setProductFiles] = useState<(File | string)[]>([]);
 
 
     const id = (): string | null => {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get('id');
     };
+
+
     useEffect(() => {
         const editProducto = async () => {
             try {
@@ -54,12 +56,14 @@ const EditProduct = () => {
                 setSalePrice(producto.salePrice ?? '');
                 setProductFiles(producto.imagenes || []);
 
+
+
             } catch (error: any) {
                 console.error(error);
             }
         };
-
         editProducto();
+
     }, []);
     const subirImagenes = async (productoId: string) => {
         try {
@@ -78,6 +82,7 @@ const EditProduct = () => {
             });
 
             const data = await response.json();
+            console.log(data);
             if (!data.ok) {
                 throw new Error(data.msg || 'Error al subir imágenes');
             }
@@ -90,35 +95,38 @@ const EditProduct = () => {
 
     const editProducto = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/productos${id}`, {
-                method: 'POST',
+            // ✅ Ejecuta la función para obtener el id
+            const id = window.location.pathname.split('/').pop();
+
+            const response = await fetch(`http://localhost:3000/api/productos/${id}`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'x-token': localStorage.getItem('accessToken') ?? ''
                 },
                 body: JSON.stringify({
+                    IdProduct: id,
                     name,
                     code,
                     marca: "Maers34",
                     category: '82fa7496-dc5b-11ef-93cc-9c81b2f8c3e7',
-                    price,
+                    price: Number(price),
                     regularPrice: 3,
                     description,
-                    stock
+                    stock: Number(stock)
                 })
             });
+            subirImagenes(id ?? '');
 
-            const data = await response.json(); // ✅ solo una vez
-
+            const data = await response.json();
             if (!response.ok || !data.ok) {
-                throw new Error(data.msg || 'Error al crear producto');
+                throw new Error(data.msg || 'Error al editar producto');
             }
 
-            const productoId = data.producto?.IdProduct;
-            return productoId;
-
-        } catch (error: any) {
-            console.error('⚠️ Error al crear producto:', error);
+            console.log('✅ Producto actualizado correctamente:', data.producto);
+            return data.producto?.IdProduct;
+        } catch (error) {
+            console.error('⚠️ Error al editar producto:', error);
             throw error;
         }
     };
@@ -147,6 +155,7 @@ const EditProduct = () => {
             throw error;
         }
     };
+
     return (
         <div>
             <PageBreadcrumb items={defaultBreadcrumbItems} />
@@ -160,16 +169,16 @@ const EditProduct = () => {
                     </div>
                     <div className="d-flex flex-wrap gap-2">
                         <Button variant="phoenix-secondary" type="button">
-                            Discard
+                            Descartar
                         </Button>
-                        <Button variant="phoenix-primary" type="button">
+                        {/* <Button variant="phoenix-primary" type="button">
                             Save draft
-                        </Button>
+                        </Button> */}
                         <Button variant="primary" type="button" onClick={(e) => {
                             e.preventDefault(); // ← esto evita que el form se recargue
                             editProducto();
                         }}>
-                            Publish product
+                            Editar Producto
                         </Button>
                     </div>
                 </div>
@@ -193,12 +202,14 @@ const EditProduct = () => {
                         </div>
                         <div className="mb-5">
                             <h4 className="mb-3">Display images</h4>
+
                             <Dropzone
                                 className="mb-3"
                                 accept={{
                                     'image/*': ['.png', '.gif', '.jpeg', '.jpg']
                                 }}
                                 multiple={true}
+                                defaultFiles={productFiles}
                                 setPhotos={setProductFiles}
                             />
 
