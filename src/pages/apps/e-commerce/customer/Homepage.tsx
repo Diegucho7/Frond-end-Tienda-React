@@ -5,6 +5,8 @@ import EcomGiftItemsBanner from 'components/banners/EcomGiftItemsBanner';
 import EcomBestInMarketBanner from 'components/banners/EcomBestInMarketBanner';
 import {
   bestOfferProducts,
+  Product,
+  ProductsTableProductType,
   topDealsProducts,
   topElectronicProducts
 } from 'data/e-commerce/products';
@@ -13,8 +15,49 @@ import EcomTopDeals from 'components/sliders/EcomTopDeals';
 import EcomTopElectronics from 'components/sliders/EcomTopElectronics';
 import EcomBestOffers from 'components/sliders/EcomBestOffers';
 import EcomBecomeMember from 'components/cta/EcomBecomeMember';
+import { useEffect, useState } from 'react';
 
 const Homepage = () => {
+
+
+
+  const [productsData, setProductsData] = useState<Product[]>([]);
+
+
+  useEffect(() => {
+
+    const tablaDatos = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/productos', {
+          method: 'GET',
+
+        });
+
+        const json = await response.json();
+        const mappedProducts: Product[] = json.products.map((item: any) => ({
+          id: item.IdProduct,
+          name: item.name,
+          image: `http://localhost:3000/api/uploads/productos/${item.imagenes[0]}`, // ajusta si tienes otra ruta
+          rated: parseFloat(item.price) + 5,
+          price: parseFloat(item.price),
+          // category: item.marca, // puedes reemplazar con el nombre si tienes un mapa de categorías
+          // tags: [item.marca], // podrías agregar tags desde item.description si quieres
+          // starred: false, // valor predeterminado
+          extra: item.marca,
+          publishedOn: new Date().toLocaleString(), // o usa fecha real si la tienes
+          verified: true
+        }));
+
+        setProductsData(mappedProducts);
+      } catch (err) {
+        console.error('Error al obtener productos:', err);
+      }
+    };
+    tablaDatos();
+  }, []);
+
+
+
   return (
     <div className="ecommerce-homepage pt-5 mb-9">
       <section className="py-0">
@@ -39,7 +82,7 @@ const Homepage = () => {
           </Row>
           <Row className="g-4 mb-6">
             <Col xs={12} lg={9} xxl={10}>
-              <EcomTopDeals products={topDealsProducts} />
+              <EcomTopDeals products={productsData} />
             </Col>
             <Col lg={3} xxl={2} className="d-none d-lg-block">
               <div className="h-100 position-relative rounded-3 overflow-hidden">
