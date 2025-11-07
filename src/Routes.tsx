@@ -1,6 +1,6 @@
 import MainLayout from 'layouts/MainLayout';
 import Starter from 'pages/pages/Starter';
-import { RouteObject, createBrowserRouter } from 'react-router';
+import { Navigate, RouteObject, createBrowserRouter } from 'react-router';
 import ButtonExample from 'pages/modules/components/ButtonExample';
 import AccordionExample from 'pages/modules/components/AccordionExample';
 import AvatarExample from 'pages/modules/components/AvatarExample';
@@ -245,7 +245,8 @@ const routes: RouteObject[] = [
         path: '/',
         element: (
           <MainLayoutProvider>
-            <MainLayout />
+            {/* <MainLayout /> */}
+            <Navigate to="/apps/e-commerce/customer/homepage" replace />
           </MainLayoutProvider>
         ),
         children: [

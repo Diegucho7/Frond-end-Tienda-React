@@ -38,11 +38,11 @@ const Homepage = () => {
           id: item.IdProduct,
           name: item.name,
           image: `http://localhost:3000/api/uploads/productos/${item.imagenes[0]}`, // ajusta si tienes otra ruta
-          rated: parseFloat(item.price) + 5,
-          price: parseFloat(item.price),
+          price: parseFloat(item.price) + 10,
+          salePrice: parseFloat(item.price),
           // category: item.marca, // puedes reemplazar con el nombre si tienes un mapa de categorías
           // tags: [item.marca], // podrías agregar tags desde item.description si quieres
-          // starred: false, // valor predeterminado
+          starred: true, // valor predeterminado
           extra: item.marca,
           publishedOn: new Date().toLocaleString(), // o usa fecha real si la tienes
           verified: true

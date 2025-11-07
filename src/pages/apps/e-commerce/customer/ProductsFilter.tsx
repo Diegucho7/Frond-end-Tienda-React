@@ -1,12 +1,12 @@
 import PhoenixOffcanvas from 'components/base/PhoenixOffcanvas';
 import Section from 'components/base/Section';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Col, Pagination, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Scrollbar from 'components/base/Scrollbar';
 import ProductFilterItems from 'components/modules/e-commerce/products-filter/ProductFilterItems';
 import ProductCard from 'components/common/ProductCard';
-import { allProducts } from 'data/e-commerce/products';
+import { allProducts, Product } from 'data/e-commerce/products';
 import {
   faChevronLeft,
   faChevronRight,
@@ -14,6 +14,44 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 const ProductsFilter = () => {
+
+  const [productsData, setProductsData] = useState<Product[]>([]);
+
+
+  useEffect(() => {
+
+    const tablaDatos = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/productos', {
+          method: 'GET',
+
+        });
+
+        const json = await response.json();
+        const mappedProducts: Product[] = json.products.map((item: any) => ({
+          id: item.IdProduct,
+          name: item.name,
+          image: `http://localhost:3000/api/uploads/productos/${item.imagenes[0]}`, // ajusta si tienes otra ruta
+          price: parseFloat(item.price) + 10,
+          salePrice: parseFloat(item.price),
+          // category: item.marca, // puedes reemplazar con el nombre si tienes un mapa de categorías
+          // tags: [item.marca], // podrías agregar tags desde item.description si quieres
+          starred: true, // valor predeterminado
+          extra: item.marca,
+          publishedOn: new Date().toLocaleString(), // o usa fecha real si la tienes
+          verified: true
+        }));
+
+        setProductsData(mappedProducts);
+      } catch (err) {
+        console.error('Error al obtener productos:', err);
+      }
+    };
+    tablaDatos();
+  }, []);
+
+
+
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -59,7 +97,7 @@ const ProductsFilter = () => {
           </Col>
           <Col lg={9} xxl={10}>
             <Row className="gx-3 gy-6 mb-8">
-              {allProducts.map(product => (
+              {productsData.map(product => (
                 <Col xs={12} sm={6} md={4} xxl={2} key={product.id}>
                   <div className="product-card-container h-100">
                     <ProductCard product={product} />
