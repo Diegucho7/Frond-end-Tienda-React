@@ -59,29 +59,29 @@ const ProfileDropdownMenu = ({ className }: { className?: string }) => {
   }, [token]);
   const [navItems] = useState([
     {
-      label: 'Profile',
+      label: 'Perfil',
       icon: 'user'
     },
+    // {
+    //   label: 'Dashboard',
+    //   icon: 'pie-chart'
+    // },
+    // {
+    //   label: 'Posts & Activity',
+    //   icon: 'lock'
+    // },
     {
-      label: 'Dashboard',
-      icon: 'pie-chart'
-    },
-    {
-      label: 'Posts & Activity',
-      icon: 'lock'
-    },
-    {
-      label: 'Settings & Privacy ',
+      label: 'Configuración y Privacidad',
       icon: 'settings'
     },
     {
-      label: 'Help Center',
+      label: 'Centro de Ayuda',
       icon: 'help-circle'
     },
-    {
-      label: 'Language',
-      icon: 'globe'
-    }
+    // {
+    //   label: 'Language',
+    //   icon: 'globe'
+    // }
   ]);
   return (
     <Dropdown.Menu
@@ -94,16 +94,16 @@ const ProfileDropdownMenu = ({ className }: { className?: string }) => {
       <Card className="position-relative border-0">
         <Card.Body className="p-0">
           <div className="d-flex flex-column align-items-center justify-content-center gap-2 pt-4 pb-3">
-            <Avatar src={avatar} size="xl" />
+            {/* <Avatar src={avatar} size="xl" /> */}
             <h6 className="text-body-emphasis">{user?.name} {user?.lastname}</h6>
           </div>
-          <div className="mb-3 mx-3">
+          {/* <div className="mb-3 mx-3">
             <Form.Control
               type="text"
               placeholder="Update your status"
               size="sm"
             />
-          </div>
+          </div> */}
           <div style={{ height: '10rem' }}>
             <Scrollbar style={{ maxHeight: '10rem' }}>
               <Nav className="nav flex-column mb-2 pb-1">
@@ -124,7 +124,7 @@ const ProfileDropdownMenu = ({ className }: { className?: string }) => {
           </div>
         </Card.Body>
         <Card.Footer className="p-0 border-top border-translucent">
-          <Nav className="nav flex-column my-3">
+          {/* <Nav className="nav flex-column my-3">
             <Nav.Item>
               <Nav.Link href="#!" className="px-3">
                 <FeatherIcon
@@ -135,15 +135,15 @@ const ProfileDropdownMenu = ({ className }: { className?: string }) => {
                 <span>Add another account</span>
               </Nav.Link>
             </Nav.Item>
-          </Nav>
-          <hr />
+          </Nav> */}
+          {/* <hr /> */}
           <div className="px-3">
             <button
               onClick={handleLogout}
               className="btn btn-phoenix-secondary d-flex flex-center w-100"
             >
               <FeatherIcon icon="log-out" className="me-2" size={16} />
-              Sign out
+              Cerrar sesión
             </button>
           </div>
           <div className="my-2 text-center fw-bold fs-10 text-body-quaternary">

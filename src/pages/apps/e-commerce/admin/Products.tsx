@@ -90,7 +90,7 @@ const Products = () => {
           product: item.name,
           productImage: `http://localhost:3000/api/uploads/productos/${item.imagenes[0]}`, // ajusta si tienes otra ruta
           price: parseFloat(item.price),
-          category: item.marca, // puedes reemplazar con el nombre si tienes un mapa de categorías
+          category: item.categoria, // puedes reemplazar con el nombre si tienes un mapa de categorías
           tags: [item.marca], // podrías agregar tags desde item.description si quieres
           starred: false, // valor predeterminado
           vendor: item.marca,
@@ -122,7 +122,7 @@ const Products = () => {
     <div>
       <PageBreadcrumb items={defaultBreadcrumbItems} />
       <div className="mb-9">
-        <h2 className="mb-4">Products</h2>
+        <h2 className="mb-4">Productos</h2>
         <FilterTab tabItems={tabItems} className="mb-2" />
         <AdvanceTableProvider {...table}>
           <div className="mb-4">

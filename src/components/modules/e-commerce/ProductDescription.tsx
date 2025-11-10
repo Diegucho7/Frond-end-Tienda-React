@@ -20,7 +20,32 @@ const ProductDescription = ({ products }: ProductDescriptionProps) => {
   const [quantity, setQuantity] = useState(1);
 
 
+  const enviarCarritoCompras = async () => {
+    try {
+      const token = localStorage.getItem('accessToken');
+      const response = await fetch('http://localhost:3000/api/shoppingcart/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-token': token ?? ''
+        },
+        body: JSON.stringify({
+          productId: products[0].IdProduct,
+          quantity: quantity,
+          activo: 1,
+          createdAt: new Date().toISOString(),
+        }),
+      });
 
+      if (response.ok) {
+        console.log('Producto agregado al carrito con éxito');
+      } else {
+        console.error('Error al agregar el producto al carrito');
+      }
+    } catch (error) {
+      console.error('Error de red al agregar el producto al carrito:', error);
+    }
+  }
 
   const selectedVariant = useMemo(() => {
     return productColorVariants.find(
@@ -41,26 +66,36 @@ const ProductDescription = ({ products }: ProductDescriptionProps) => {
           <p>No hay imágenes disponibles</p>
         )}
         <div className="d-flex">
-          <Button
+          {/* <Button
             variant="outline-warning"
             size="lg"
             className="rounded-pill w-100 me-3 px-2 px-sm-4 fs--1 fs-sm-0"
           >
             <FontAwesomeIcon icon={faHeart} className="me-2" />
             Add to wishlist
-          </Button>
-          <Button
+          </Button> */}
+          {/* <Button
             variant="warning"
             size="lg"
             className="rounded-pill w-100 px-2 px-sm-4 fs--1 fs-sm-0"
           >
             <FontAwesomeIcon icon={faShoppingCart} className="me-2" />
-            Add to cart
+            Agregar al carrito de Compras
+          </Button> */}
+          <Button
+            variant="warning"
+            size="lg"
+            className="rounded-pill w-100 px-2 px-sm-4 fs--1 fs-sm-0"
+            onClick={enviarCarritoCompras}
+          >
+            <FontAwesomeIcon icon={faShoppingCart} className="me-2" />
+            Agregar al carrito de Compras
           </Button>
         </div>
       </Col>
       <Col xs={12} lg={6}>
-        <Stack className="justify-content-between h-100">
+        {/* <Stack className="justify-content-between h-100"> */}
+        <Stack className="justify-content-between h-50">
           <div className="mb-3">
             <div className="d-flex flex-wrap">
               <div className="me-2">
@@ -112,7 +147,7 @@ const ProductDescription = ({ products }: ProductDescriptionProps) => {
           </div>
 
           <div>
-            <div className="mb-3">
+            {/* <div className="mb-3">
               <p className="fw-semibold mb-2 text-body">
                 Color :{' '}
                 <span className="text-body-emphasis">
@@ -123,9 +158,9 @@ const ProductDescription = ({ products }: ProductDescriptionProps) => {
                 selectedVariantKey={selectedVariantKey}
                 setSelectedVariantKey={setSelectedVariantKey}
               />
-            </div>
+            </div> */}
             <div className="row g-3 g-sm-5 align-items-end">
-              <div className="col-12 col-sm-auto">
+              {/* <div className="col-12 col-sm-auto">
                 <p className="fw-semibold mb-2 text-body">Size : </p>
                 <div className="d-flex align-items-center">
                   <select className="form-select w-auto">
@@ -137,7 +172,7 @@ const ProductDescription = ({ products }: ProductDescriptionProps) => {
                     Size chart
                   </a>
                 </div>
-              </div>
+              </div> */}
               <div className="col-12 col-sm">
                 <p className="fw-semibold mb-2 text-body">Quantity : </p>
                 <div className="d-flex justify-content-between align-items-end">

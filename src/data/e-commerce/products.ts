@@ -86,7 +86,8 @@ export type productoDetail = {
   imagenes: string[]
 }
 export type CartItemType = {
-  id: number | string;
+  IdCart?: string,
+  id: string | number;
   name: string;
   image: string;
   color: string;

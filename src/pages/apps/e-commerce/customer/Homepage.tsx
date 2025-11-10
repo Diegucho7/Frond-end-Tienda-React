@@ -43,7 +43,7 @@ const Homepage = () => {
           // category: item.marca, // puedes reemplazar con el nombre si tienes un mapa de categorías
           // tags: [item.marca], // podrías agregar tags desde item.description si quieres
           starred: true, // valor predeterminado
-          extra: item.category,
+          extra: item.categoria,
           publishedOn: new Date().toLocaleString(), // o usa fecha real si la tienes
           verified: true
         }));
@@ -55,12 +55,12 @@ const Homepage = () => {
     };
     tablaDatos();
   }, []);
-  const electronic = productsData.filter(p => p.extra === '9cadc34c-bdd8-11f0-b33c-88c237c94b1c');
-  const technology = productsData.filter(p => p.extra === 'f383ff28-bdc8-11f0-b33c-88c237c94b1c');
-  const beauty = productsData.filter(p => p.extra === 'f31f54c1-ddf9-11ef-93cc-9c81b2f8c3e7');
-  const toys = productsData.filter(p => p.extra === '87dd7e16-dc5b-11ef-93cc-9c81b2f8c3e7');
-  const home = productsData.filter(p => p.extra === 'f739d381-ddf9-11ef-93cc-9c81b2f8c3e7');
-  const accesories = productsData.filter(p => p.extra === 'ee884bdd-ddf9-11ef-93cc-9c81b2f8c3e7');
+  const electronic = productsData.filter(p => p.extra === 'ELECTRODOMÉSTICOS');
+  const technology = productsData.filter(p => p.extra === 'TECNOLOGÍA');
+  const beauty = productsData.filter(p => p.extra === 'BELLEZA');
+  const toys = productsData.filter(p => p.extra === 'JUGUETES');
+  const home = productsData.filter(p => p.extra === 'HOGAR');
+  const accesories = productsData.filter(p => p.extra === 'ACCESORIOS');
 
 
   return (

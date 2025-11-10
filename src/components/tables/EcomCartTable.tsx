@@ -15,7 +15,7 @@ interface EcomCartTableProps {
 
 const EcomCartTable = ({ products }: EcomCartTableProps) => {
   return (
-    <Scrollbar style={{ maxHeight: '100%'}} className="table-scrollbar">
+    <Scrollbar style={{ maxHeight: '100%' }} className="table-scrollbar">
       <Table className="phoenix-table fs-9 mb-0 border-top border-translucent">
         <thead>
           <tr>
@@ -69,6 +69,19 @@ const EcomCartTableRow = ({ product }: { product: CartItemType }) => {
     return product.price * quantity;
   }, [quantity]);
 
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/shoppingcart/${String(product.IdCart)}`, {
+        method: 'DELETE',
+      });
+
+      const result = await response.json();
+      console.log('🗑️ Producto eliminado:', result);
+    } catch (error) {
+      console.error('Error eliminando producto:', error);
+    }
+  };
+
   return (
     <tr className="cart-table-row" key={product.id}>
       <td className="py-0">
@@ -101,6 +114,7 @@ const EcomCartTableRow = ({ product }: { product: CartItemType }) => {
           size="sm"
           variant="link"
           className="text-body-quaternary text-body-tertiary-hover me-2"
+          onClick={handleDelete} // 
         >
           <FontAwesomeIcon icon={faTrash} />
         </Button>
