@@ -13,11 +13,11 @@ const EcomTopDeals = ({ products }: { products: Product[] }) => {
       <div className="d-flex flex-between-center mb-3">
         <div className="d-flex">
           <FontAwesomeIcon icon={faBolt} className="text-warning fs-6" />
-          <h3 className="mx-2">Top Deals today</h3>
+          <h3 className="mx-2">Las mejores ofertas de hoy  </h3>
           <FontAwesomeIcon icon={faBolt} className="text-warning fs-6" />
         </div>
-        <Link to="#!" className="btn btn-link btn-lg p-0 d-none d-md-block">
-          Explore more
+        <Link to="/apps/e-commerce/customer/products-filter" className="btn btn-link btn-lg p-0 d-none d-md-block">
+          Explorar más
           <FontAwesomeIcon icon={faChevronRight} className="fs-9 ms-1" />
         </Link>
       </div>

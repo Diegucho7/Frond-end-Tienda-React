@@ -7,11 +7,11 @@ import Swiper from 'components/base/Swiper';
 import { SwiperSlide } from 'swiper/react';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
-const EcomTopElectronics = ({ products }: { products: Product[] }) => {
+const EcomTopElectronics = ({ products, title }: { products: Product[], title: string }) => {
   return (
     <>
       <div className="d-flex flex-between-center mb-3">
-        <h3>Top Electronics</h3>
+        <h3>{title}</h3>
         <Link to="#!" className="btn btn-link btn-lg p-0 d-none d-md-block">
           Explore more
           <FontAwesomeIcon icon={faChevronRight} className="fs-9 ms-1" />

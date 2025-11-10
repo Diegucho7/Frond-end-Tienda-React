@@ -109,14 +109,14 @@ const EditProduct = () => {
                     name,
                     code,
                     marca: "Maers34",
-                    category: '82fa7496-dc5b-11ef-93cc-9c81b2f8c3e7',
+                    category,
                     price: Number(price),
                     regularPrice: 3,
                     description,
                     stock: Number(stock)
                 })
             });
-            subirImagenes(id ?? '');
+            await subirImagenes(id!);
 
             const data = await response.json();
             if (!response.ok || !data.ok) {
@@ -136,14 +136,12 @@ const EditProduct = () => {
         try {
 
             const id = window.location.pathname.split('/').pop();
-            console.log(id);
             const response = await fetch(`http://localhost:3000/api/productos/${id}`, {
                 method: 'GET',
                 headers: {
                     'x-token': localStorage.getItem('accessToken') ?? ''
                 }
             });
-            console.log(`http://localhost:3000/api/productos/${id}`);
             const data = await response.json();
             if (!data.ok) {
                 throw new Error(data.msg || 'Error al cargar producto');
@@ -224,7 +222,7 @@ const EditProduct = () => {
                     <Col xs={12} xl={4}>
                         <Row className="g-2">
                             <Col xs={12} xl={12}>
-                                <OrganizeFormCard className="mb-3" />
+                                <OrganizeFormCard category={category} setCategory={setCategory} className="mb-3" />
                             </Col>
                             <Col xs={12} xl={12}>
                                 <VariantFormCard />

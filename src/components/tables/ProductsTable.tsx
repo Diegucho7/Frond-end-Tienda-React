@@ -134,10 +134,10 @@ export const productsTablecolumns: ColumnDef<ProductsTableProductType>[] = [
   },
   {
     id: 'action',
-    cell: () => (
+    cell: ({ row }) => (
       <RevealDropdownTrigger>
         <RevealDropdown>
-          <ActionDropdownItems />
+          <ActionDropdownItems {...{ productId: row.original.idProduct }} />
         </RevealDropdown>
       </RevealDropdownTrigger>
     ),

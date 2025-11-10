@@ -43,7 +43,7 @@ const Homepage = () => {
           // category: item.marca, // puedes reemplazar con el nombre si tienes un mapa de categorías
           // tags: [item.marca], // podrías agregar tags desde item.description si quieres
           starred: true, // valor predeterminado
-          extra: item.marca,
+          extra: item.category,
           publishedOn: new Date().toLocaleString(), // o usa fecha real si la tienes
           verified: true
         }));
@@ -55,7 +55,12 @@ const Homepage = () => {
     };
     tablaDatos();
   }, []);
-
+  const electronic = productsData.filter(p => p.extra === '9cadc34c-bdd8-11f0-b33c-88c237c94b1c');
+  const technology = productsData.filter(p => p.extra === 'f383ff28-bdc8-11f0-b33c-88c237c94b1c');
+  const beauty = productsData.filter(p => p.extra === 'f31f54c1-ddf9-11ef-93cc-9c81b2f8c3e7');
+  const toys = productsData.filter(p => p.extra === '87dd7e16-dc5b-11ef-93cc-9c81b2f8c3e7');
+  const home = productsData.filter(p => p.extra === 'f739d381-ddf9-11ef-93cc-9c81b2f8c3e7');
+  const accesories = productsData.filter(p => p.extra === 'ee884bdd-ddf9-11ef-93cc-9c81b2f8c3e7');
 
 
   return (
@@ -96,7 +101,22 @@ const Homepage = () => {
             </Col>
           </Row>
           <div className="mb-6">
-            <EcomTopElectronics products={topElectronicProducts} />
+            <EcomTopElectronics products={electronic} title="Electrodomesticos" />
+          </div>
+          <div className="mb-6">
+            <EcomTopElectronics products={beauty} title="Belleza" />
+          </div>
+          <div className="mb-6">
+            <EcomTopElectronics products={technology} title="Tecnología" />
+          </div>
+          <div className="mb-6">
+            <EcomTopElectronics products={toys} title="Juguetes" />
+          </div>
+          <div className="mb-6">
+            <EcomTopElectronics products={home} title="Hogar" />
+          </div>
+          <div className="mb-6">
+            <EcomTopElectronics products={accesories} title="Accesorios" />
           </div>
           <div className="mb-6">
             <EcomBestOffers products={bestOfferProducts} />

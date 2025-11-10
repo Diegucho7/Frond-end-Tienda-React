@@ -245,8 +245,8 @@ const routes: RouteObject[] = [
         path: '/',
         element: (
           <MainLayoutProvider>
-            {/* <MainLayout /> */}
-            <Navigate to="/apps/e-commerce/customer/homepage" replace />
+            <MainLayout />
+            {/* <Navigate to="/apps/e-commerce/customer/homepage" replace /> */}
           </MainLayoutProvider>
         ),
         children: [

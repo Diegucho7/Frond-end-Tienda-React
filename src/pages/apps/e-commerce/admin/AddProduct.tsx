@@ -27,7 +27,7 @@ const AddProduct = () => {
   const [code, setCode] = useState('');
   const [category, setCategory] = useState('');
   const [salePrice, setSalePrice] = useState('');
-  const [productFiles, setProductFiles] = useState<File[]>([]);
+  const [productFiles, setProductFiles] = useState<(File | string)[]>([]);
 
   const agregarProducto = async () => {
     try {
@@ -72,7 +72,18 @@ const AddProduct = () => {
   };
 
   const crearProducto = async () => {
+
     try {
+      console.log('Creando producto con datos:', {
+        name,
+        code,
+        marca: "Maers34",
+        category,
+        price,
+        regularPrice: 3,
+        description,
+        stock
+      });
       const response = await fetch('http://localhost:3000/api/productos', {
         method: 'POST',
         headers: {
@@ -83,7 +94,7 @@ const AddProduct = () => {
           name,
           code,
           marca: "Maers34",
-          category: '82fa7496-dc5b-11ef-93cc-9c81b2f8c3e7',
+          category,
           price,
           regularPrice: 3,
           description,
@@ -115,44 +126,44 @@ const AddProduct = () => {
           <div>
             <h2 className="mb-2">Agregar Producto</h2>
             <h5 className="text-body-tertiary fw-semibold">
-              Orders placed across your store
+              Pedidos realizados en tu tienda
             </h5>
           </div>
           <div className="d-flex flex-wrap gap-2">
             <Button variant="phoenix-secondary" type="button">
-              Discard
+              Descartar
             </Button>
             <Button variant="phoenix-primary" type="button">
-              Save draft
+              Guardar Borrador
             </Button>
             <Button variant="primary" type="button" onClick={(e) => {
               e.preventDefault(); // ← esto evita que el form se recargue
               agregarProducto();
             }}>
-              Publish product
+              Publicar Producto
             </Button>
           </div>
         </div>
         <Row className="g-5">
           <Col xs={12} xl={8}>
-            <h4 className="mb-3">Product Title</h4>
-            <Form.Control placeholder="Write title here..." className="mb-5" value={name} onChange={e => setName(e.target.value)} />
+            <h4 className="mb-3">Titulo de Producto</h4>
+            <Form.Control placeholder="Escribe el título aquí..." className="mb-5" value={name} onChange={e => setName(e.target.value)} />
 
-            <h4 className="mb-3">Product Code</h4>
-            <Form.Control placeholder="Write code here..." className="mb-5" value={code} onChange={e => setCode(e.target.value)} />
+            <h4 className="mb-3">Código de Producto</h4>
+            <Form.Control placeholder="Escribe el código aquí..." className="mb-5" value={code} onChange={e => setCode(e.target.value)} />
 
 
             <div className="mb-6">
-              <h4 className="mb-3">Product Description</h4>
+              <h4 className="mb-3">Descripción del Producto</h4>
               <TinymceEditor value={description} onChange={(content: string) => setDescription(content)}
                 options={{
                   height: '15rem',
-                  placeholder: 'Write a description here...'
+                  placeholder: 'Escribe una descripción aquí...'
                 }}
               />
             </div>
             <div className="mb-5">
-              <h4 className="mb-3">Display images</h4>
+              <h4 className="mb-3">Mostrar imágenes</h4>
               <Dropzone
                 className="mb-3"
                 accept={{
@@ -171,11 +182,11 @@ const AddProduct = () => {
           <Col xs={12} xl={4}>
             <Row className="g-2">
               <Col xs={12} xl={12}>
-                <OrganizeFormCard className="mb-3" />
+                <OrganizeFormCard category={category} setCategory={setCategory} className="mb-3" />
               </Col>
-              <Col xs={12} xl={12}>
+              {/* <Col xs={12} xl={12}>
                 <VariantFormCard />
-              </Col>
+              </Col> */}
             </Row>
           </Col>
         </Row>
