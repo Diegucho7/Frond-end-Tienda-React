@@ -43,7 +43,7 @@ const NineDotMenu = () => {
         className="position-relative border-0"
         style={{ height: '20rem', minWidth: 244 }}
       >
-        <Scrollbar style={{maxHeight: '20rem' }}>
+        <Scrollbar style={{ maxHeight: '20rem' }}>
           <Card.Body className="pt-3 px-3 pb-0">
             <Row className="text-center align-items-center g-0">
               {items.map(item => (

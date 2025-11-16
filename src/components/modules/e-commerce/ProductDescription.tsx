@@ -12,6 +12,10 @@ import QuantityButtons from 'components/common/QuantityButtons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faShareAlt, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { ProductDescriptionProps } from 'data/e-commerce/products';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 const ProductDescription = ({ products }: ProductDescriptionProps) => {
 
@@ -38,8 +42,11 @@ const ProductDescription = ({ products }: ProductDescriptionProps) => {
       });
 
       if (response.ok) {
-        console.log('Producto agregado al carrito con éxito');
+        toast.success('Operación exitosa!');
+        console.log(response);
       } else {
+        toast.error('El producto ya está en el carrito de compras');
+
         console.error('Error al agregar el producto al carrito');
       }
     } catch (error) {
@@ -91,6 +98,8 @@ const ProductDescription = ({ products }: ProductDescriptionProps) => {
             <FontAwesomeIcon icon={faShoppingCart} className="me-2" />
             Agregar al carrito de Compras
           </Button>
+          <ToastContainer />
+
         </div>
       </Col>
       <Col xs={12} lg={6}>

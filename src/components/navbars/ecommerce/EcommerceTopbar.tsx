@@ -6,8 +6,39 @@ import NotificationDropdownMenu from '../nav-items/NotificationDropdownMenu';
 import ProfileDropdownMenu from '../nav-items/ProfileDropdownMenu';
 import SearchBox from 'components/common/SearchBox';
 import ThemeToggler from 'components/common/ThemeToggler';
+import { useState, useEffect } from 'react';
 
 const EcommerceTopbar = () => {
+
+  const [count, setCount] = useState(0);
+  const token = localStorage.getItem("accessToken");
+
+  useEffect(() => {
+    const fetchCount = async () => {
+      try {
+        const resp = await fetch("http://localhost:3000/api/shoppingcart/number", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "x-token": token ?? "",
+          },
+        });
+
+        const data = await resp.json();
+
+        if (data.ok) {
+          setCount(data.total);
+        }
+      } catch (error) {
+        console.error("Error obteniendo cantidad del carrito", error);
+      }
+    };
+
+    if (token) fetchCount();
+  }, [token]);
+
+
+
   return (
     <div className="container-small">
       <div className="ecommerce-topbar">
@@ -31,7 +62,7 @@ const EcommerceTopbar = () => {
                     className="px-2 icon-indicator icon-indicator-primary"
                   >
                     <FeatherIcon icon="shopping-cart" size={20} />
-                    <span className="icon-indicator-number">3</span>
+                    <span className="icon-indicator-number">{count}</span>
                   </Nav.Link>
                 </Nav.Item>
 
@@ -70,7 +101,7 @@ const EcommerceTopbar = () => {
                 className="ecommerce-search-box w-100"
                 inputClassName="rounded-pill"
                 size="sm"
-                // style={{ width: '25rem' }}
+              // style={{ width: '25rem' }}
               />
             </Col>
           </Row>

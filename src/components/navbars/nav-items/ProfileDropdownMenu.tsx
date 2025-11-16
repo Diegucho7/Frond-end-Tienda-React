@@ -22,7 +22,8 @@ const ProfileDropdownMenu = ({ className }: { className?: string }) => {
     localStorage.removeItem('token');
     localStorage.removeItem('accessToken');
     // Redirige al login o a donde quieras
-    window.location.href = '/pages/authentication/card/sign-in';
+    // window.location.href = '/pages/authentication/card/sign-in';
+    window.location.reload();
   }
   useEffect(() => {
 
@@ -124,27 +125,25 @@ const ProfileDropdownMenu = ({ className }: { className?: string }) => {
           </div>
         </Card.Body>
         <Card.Footer className="p-0 border-top border-translucent">
-          {/* <Nav className="nav flex-column my-3">
-            <Nav.Item>
-              <Nav.Link href="#!" className="px-3">
-                <FeatherIcon
-                  icon="user-plus"
-                  size={16}
-                  className="me-2 text-body"
-                />
-                <span>Add another account</span>
-              </Nav.Link>
-            </Nav.Item>
-          </Nav> */}
-          {/* <hr /> */}
+
           <div className="px-3">
-            <button
-              onClick={handleLogout}
-              className="btn btn-phoenix-secondary d-flex flex-center w-100"
-            >
-              <FeatherIcon icon="log-out" className="me-2" size={16} />
-              Cerrar sesión
-            </button>
+            {token ? (
+              <button
+                onClick={handleLogout}
+                className="btn btn-phoenix-secondary d-flex flex-center w-100"
+              >
+                <FeatherIcon icon="log-out" className="me-2" size={16} />
+                Cerrar sesión
+              </button>
+            ) : (
+              <Link
+                to="/pages/authentication/card/sign-in"
+                className="btn btn-phoenix-primary d-flex flex-center w-100"
+              >
+                <FeatherIcon icon="log-in" className="me-2" size={16} />
+                Iniciar sesión
+              </Link>
+            )}
           </div>
           <div className="my-2 text-center fw-bold fs-10 text-body-quaternary">
             <Link className="text-body-quaternary me-1" to="#!">

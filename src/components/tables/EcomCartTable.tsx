@@ -8,7 +8,8 @@ import { currencyFormat } from 'helpers/utils';
 import { useMemo, useState } from 'react';
 import { Table } from 'react-bootstrap';
 import { Link } from 'react-router';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 interface EcomCartTableProps {
   products: CartItemType[];
 }
@@ -21,19 +22,19 @@ const EcomCartTable = ({ products }: EcomCartTableProps) => {
           <tr>
             <th scope="col" />
             <th scope="col" style={{ minWidth: 250 }}>
-              PRODUCTS
+              PRODUCTOS
             </th>
             <th scope="col" style={{ width: 80 }}>
               COLOR
             </th>
             <th scope="col" style={{ width: 150 }}>
-              SIZE
+              TAMAÑO
             </th>
             <th className="text-end" scope="col" style={{ width: 300 }}>
-              PRICE
+              PRECIO
             </th>
             <th className="ps-5" scope="col" style={{ width: 200 }}>
-              QUANTITY
+              CANTIDAD
             </th>
             <th className="text-end" scope="col" style={{ width: 250 }}>
               TOTAL
@@ -76,9 +77,12 @@ const EcomCartTableRow = ({ product }: { product: CartItemType }) => {
       });
 
       const result = await response.json();
-      console.log('🗑️ Producto eliminado:', result);
+      toast.success('Producto eliminado');
+      setTimeout(() => {
+        window.location.reload(); // 🔄 Recarga toda la página
+      }, 1500);
     } catch (error) {
-      console.error('Error eliminando producto:', error);
+      toast.error('Hubo un error');
     }
   };
 
@@ -119,6 +123,7 @@ const EcomCartTableRow = ({ product }: { product: CartItemType }) => {
           <FontAwesomeIcon icon={faTrash} />
         </Button>
       </td>
+      <ToastContainer />
     </tr>
   );
 };

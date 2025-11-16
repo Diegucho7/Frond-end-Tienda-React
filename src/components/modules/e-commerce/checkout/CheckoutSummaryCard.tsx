@@ -1,10 +1,12 @@
 import Button from 'components/base/Button';
-import { cartItems } from 'data/e-commerce/products';
+import { cartItems, CartItemType } from 'data/e-commerce/products';
 import { currencyFormat } from 'helpers/utils';
 import React from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
-
-const CheckoutSummaryCard = () => {
+interface EcomCartTableProps {
+  products: CartItemType[];
+}
+const CheckoutSummaryCard = ({ products }: EcomCartTableProps) => {
   return (
     <Card>
       <Card.Body>

@@ -6,6 +6,7 @@ import { currencyFormat } from 'helpers/utils';
 import { Card, Form, FormControl, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router';
 import { CartItemType } from 'data/e-commerce/products';
+import FeatherIcon from 'feather-icons-react';
 interface EcomCartTableProps {
   products: CartItemType[];
 }
@@ -38,6 +39,8 @@ const EcomCartSummaryCard = ({ products }: EcomCartTableProps) => {
           </h4>
         </div>
         <Button
+          as={Link}
+          to="/apps/e-commerce/customer/shipping-info"
           className="w-100"
           variant="primary"
           endIcon={
@@ -46,8 +49,9 @@ const EcomCartSummaryCard = ({ products }: EcomCartTableProps) => {
         >
           Realizar pedido
         </Button>
+
       </Card.Body>
-    </Card>
+    </Card >
   );
 };
 

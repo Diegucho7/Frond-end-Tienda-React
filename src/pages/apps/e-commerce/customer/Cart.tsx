@@ -6,6 +6,8 @@ import { defaultBreadcrumbItems } from 'data/commonData';
 import { cartItems, CartItemType, Product } from 'data/e-commerce/products';
 import { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Cart = () => {
 
@@ -61,13 +63,13 @@ const Cart = () => {
     <div className="pt-5 mb-9">
       <Section small className="py-0">
         <PageBreadcrumb items={defaultBreadcrumbItems} />
-        <h2 className="mb-6">Cart</h2>
+        <h2 className="mb-6">Carrito de Compras</h2>
         <Row className="g-5">
           <Col xs={12} lg={8}>
             <EcomCartTable products={productsData} />
           </Col>
           <Col xs={12} lg={4}>
-            <EcomCartSummaryCard />
+            <EcomCartSummaryCard products={productsData} />
           </Col>
         </Row>
       </Section>
