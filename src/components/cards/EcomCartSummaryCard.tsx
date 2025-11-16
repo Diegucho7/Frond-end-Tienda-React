@@ -5,23 +5,26 @@ import OrderSummaryDetails from 'components/common/OrderSummaryDetails';
 import { currencyFormat } from 'helpers/utils';
 import { Card, Form, FormControl, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router';
-
-const EcomCartSummaryCard = () => {
+import { CartItemType } from 'data/e-commerce/products';
+interface EcomCartTableProps {
+  products: CartItemType[];
+}
+const EcomCartSummaryCard = ({ products }: EcomCartTableProps) => {
   return (
     <Card>
       <Card.Body>
         <div className="d-flex flex-between-center mb-3">
-          <h3 className="mb-0">Summary</h3>
+          <h3 className="mb-0">Resumen</h3>
           <Link to="#!" className="btn btn-link p-0">
-            Edit cart
+            Editar carrito
           </Link>
         </div>
         <Form.Select className="mb-3">
           <option value="cod">Cash on Delivery</option>
-          <option value="card">Card</option>
+          <option value="card">Tarjeta</option>
           <option value="paypal">Paypal</option>
         </Form.Select>
-        <OrderSummaryDetails />
+        <OrderSummaryDetails products={products} />
         <InputGroup className="mb-3">
           <FormControl placeholder="Voucher" aria-label="voucher" />
           <Button variant="phoenix-primary" className="px-5">
@@ -41,7 +44,7 @@ const EcomCartSummaryCard = () => {
             <FontAwesomeIcon icon={faChevronRight} className="ms-1 fs-10" />
           }
         >
-          Proceed to check out
+          Realizar pedido
         </Button>
       </Card.Body>
     </Card>
