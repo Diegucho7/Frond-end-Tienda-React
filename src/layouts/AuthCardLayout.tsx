@@ -40,67 +40,67 @@ const AuthCardLayout = ({
                     className="bg-holder"
                     style={{ backgroundImage: `url(${bg38})` }}
                   />
-                  <div
-                    className={classNames(
-                      className,
-                      'position-relative px-4 px-lg-7 py-7 pb-sm-5 text-center text-md-start pb-lg-7'
-                    )}
-                  >
-                    <h3 className="mb-3 text-body-emphasis fs-7">
-                      Phoenix Authentication
-                    </h3>
-                    <p className="text-body-tertiary">
-                      Give yourself some hassle-free development process with
-                      the uniqueness of Phoenix!
-                    </p>
-                    <ul className="list-unstyled mb-0 w-max-content w-md-auto mx-auto">
-                      <li className="d-flex align-items-center gap-2">
-                        <Unicon
-                          fill='currentColor'
-                          icon={UilCheckCircle}
-                          className="text-success"
-                          size={16}
-                        />
-                        <span className="text-body-tertiary fw-semibold">
-                          Fast
-                        </span>
-                      </li>
-                      <li className="d-flex align-items-center gap-2">
-                        <Unicon
-                          fill='currentColor'
-                          icon={UilCheckCircle}
-                          className="text-success"
-                          size={16}
-                        />
-                        <span className="text-body-tertiary fw-semibold">
-                          Simple
-                        </span>
-                      </li>
-                      <li className="d-flex align-items-center gap-2">
-                        <Unicon
-                          fill='currentColor'
-                          icon={UilCheckCircle}
-                          className="text-success"
-                          size={16}
-                        />
-                        <span className="text-body-tertiary fw-semibold">
-                          Responsive
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="position-relative mb-6 d-none d-md-block text-center mt-md-15 z-n1">
-                    <img
-                      className="auth-title-box-img d-dark-none"
-                      src={authIllustrations}
-                      alt=""
-                    />
-                    <img
-                      className="auth-title-box-img d-light-none"
-                      src={authIllustrationsDark}
-                      alt=""
-                    />
-                  </div>
+                  {/*<div*/}
+                  {/*  className={classNames(*/}
+                  {/*    className,*/}
+                  {/*    'position-relative px-4 px-lg-7 py-7 pb-sm-5 text-center text-md-start pb-lg-7'*/}
+                  {/*  )}*/}
+                  {/*>*/}
+                  {/*  <h3 className="mb-3 text-body-emphasis fs-7">*/}
+                  {/*    Phoenix Authentication*/}
+                  {/*  </h3>*/}
+                  {/*  <p className="text-body-tertiary">*/}
+                  {/*    Give yourself some hassle-free development process with*/}
+                  {/*    the uniqueness of Phoenix!*/}
+                  {/*  </p>*/}
+                  {/*  <ul className="list-unstyled mb-0 w-max-content w-md-auto mx-auto">*/}
+                  {/*    <li className="d-flex align-items-center gap-2">*/}
+                  {/*      <Unicon*/}
+                  {/*        fill='currentColor'*/}
+                  {/*        icon={UilCheckCircle}*/}
+                  {/*        className="text-success"*/}
+                  {/*        size={16}*/}
+                  {/*      />*/}
+                  {/*      <span className="text-body-tertiary fw-semibold">*/}
+                  {/*        Fast*/}
+                  {/*      </span>*/}
+                  {/*    </li>*/}
+                  {/*    <li className="d-flex align-items-center gap-2">*/}
+                  {/*      <Unicon*/}
+                  {/*        fill='currentColor'*/}
+                  {/*        icon={UilCheckCircle}*/}
+                  {/*        className="text-success"*/}
+                  {/*        size={16}*/}
+                  {/*      />*/}
+                  {/*      <span className="text-body-tertiary fw-semibold">*/}
+                  {/*        Simple*/}
+                  {/*      </span>*/}
+                  {/*    </li>*/}
+                  {/*    <li className="d-flex align-items-center gap-2">*/}
+                  {/*      <Unicon*/}
+                  {/*        fill='currentColor'*/}
+                  {/*        icon={UilCheckCircle}*/}
+                  {/*        className="text-success"*/}
+                  {/*        size={16}*/}
+                  {/*      />*/}
+                  {/*      <span className="text-body-tertiary fw-semibold">*/}
+                  {/*        Responsive*/}
+                  {/*      </span>*/}
+                  {/*    </li>*/}
+                  {/*  </ul>*/}
+                  {/*</div>*/}
+                  {/*<div className="position-relative mb-6 d-none d-md-block text-center mt-md-15 z-n1">*/}
+                  {/*  <img*/}
+                  {/*    className="auth-title-box-img d-dark-none"*/}
+                  {/*    src={authIllustrations}*/}
+                  {/*    alt=""*/}
+                  {/*  />*/}
+                  {/*  <img*/}
+                  {/*    className="auth-title-box-img d-light-none"*/}
+                  {/*    src={authIllustrationsDark}*/}
+                  {/*    alt=""*/}
+                  {/*  />*/}
+                  {/*</div>*/}
                 </Col>
                 <Col className="mx-auto">
                   {logo && (

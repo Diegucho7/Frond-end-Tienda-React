@@ -1,7 +1,5 @@
-import Avatar from 'components/base/Avatar';
 import { useState, useEffect } from 'react';
-import { Card, Dropdown, Form, Nav } from 'react-bootstrap';
-import avatar from 'assets/img/team/72x72/67.webp';
+import { Card, Dropdown,  Nav } from 'react-bootstrap';
 import FeatherIcon from 'feather-icons-react';
 import { Link } from 'react-router';
 import Scrollbar from 'components/base/Scrollbar';
@@ -26,7 +24,6 @@ const ProfileDropdownMenu = ({ className }: { className?: string }) => {
     window.location.reload();
   }
   useEffect(() => {
-
     const renewToken = async () => {
       try {
         const response = await fetch('http://localhost:3000/api/auth/renew/', {
@@ -34,23 +31,23 @@ const ProfileDropdownMenu = ({ className }: { className?: string }) => {
           headers: {
             'Content-Type': 'application/json',
             'x-token': token ?? '',
-          },
-          // body: JSON.stringify({}), // puedes enviar datos aquí si es necesario
+          }
         });
 
         if (!response.ok) {
-          // console.error('Error al renovar el token');
-          throw new Error('Error al renovar el token');
+          // Token inválido o expirado
+          handleLogout();
+          return;
         }
 
         const data = await response.json();
-
-        // Suponiendo que la API responde con { token: string, usuario: { name, lastname, email } }
         setToken(data.token);
         setUser(data.usuario[0]);
         localStorage.setItem('accessToken', data.token);
+
       } catch (error) {
-        // console.error('Error al renovar el token:', error);dd
+        // Error de red o servidor
+        handleLogout();
       }
     };
 

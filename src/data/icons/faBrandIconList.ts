@@ -500,10 +500,12 @@ import {
   faZhihu,
   faKorvue,
   faPix,
-  faSteamSymbol
+  faSteamSymbol,
+  faXTwitter
 } from '@fortawesome/free-brands-svg-icons';
 
 export const faBrandIconList: { [key: string]: IconProp } = {
+  faXTwitter,
   faMonero,
   faHooli,
   faYelp,

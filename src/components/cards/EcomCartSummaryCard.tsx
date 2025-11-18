@@ -6,11 +6,23 @@ import { currencyFormat } from 'helpers/utils';
 import { Card, Form, FormControl, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router';
 import { CartItemType } from 'data/e-commerce/products';
-import FeatherIcon from 'feather-icons-react';
+// import FeatherIcon from 'feather-icons-react';
 interface EcomCartTableProps {
   products: CartItemType[];
 }
 const EcomCartSummaryCard = ({ products }: EcomCartTableProps) => {
+  const subtotalItems = products.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+
+  const discount = 0;
+  const taxRate = 0.12;
+  const taxes = subtotalItems * taxRate;
+  const shippingCost = 30;
+
+  const total = subtotalItems - discount + taxes + shippingCost;
+
   return (
     <Card>
       <Card.Body>
@@ -35,7 +47,7 @@ const EcomCartSummaryCard = ({ products }: EcomCartTableProps) => {
         <div className="d-flex justify-content-between border-y border-dashed border-translucent py-3 mb-4">
           <h4 className="mb-0">Total :</h4>
           <h4 className="mb-">
-            {currencyFormat(695.2, { minimumFractionDigits: 2 })}
+            {currencyFormat(total, { minimumFractionDigits: 2 })}
           </h4>
         </div>
         <Button

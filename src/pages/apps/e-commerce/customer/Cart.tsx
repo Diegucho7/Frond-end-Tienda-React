@@ -3,10 +3,10 @@ import EcomCartSummaryCard from 'components/cards/EcomCartSummaryCard';
 import PageBreadcrumb from 'components/common/PageBreadcrumb';
 import EcomCartTable from 'components/tables/EcomCartTable';
 import { defaultBreadcrumbItems } from 'data/commonData';
-import { cartItems, CartItemType, Product } from 'data/e-commerce/products';
+import {  CartItemType } from 'data/e-commerce/products';
 import { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { toast, ToastContainer } from 'react-toastify';
+// import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Cart = () => {

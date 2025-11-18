@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from 'assets/img/icons/logo.png';
+import logo from 'assets/img/icons/logo.ico';
 import classNames from 'classnames';
 
 interface LogoProps {
@@ -14,7 +14,7 @@ const Logo = ({ width = 27, text = true, textClass, className }: LogoProps) => {
     <div className={classNames(className, 'd-flex align-items-center')}>
       <img src={logo} alt="phoenix" width={width} />
       {text && (
-        <p className={classNames(textClass, 'logo-text ms-2')}>phoenix</p>
+        <p className={classNames(textClass, 'logo-text ms-2')}>ViviShop.info</p>
       )}
     </div>
   );

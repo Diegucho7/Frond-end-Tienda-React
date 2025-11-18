@@ -1,4 +1,4 @@
-import logo from 'assets/img/icons/logo.png';
+import logo from 'assets/img/icons/logo-back-1.png';
 import classNames from 'classnames';
 
 const PhoenixLoader = ({ fullPage }: { fullPage?: boolean }) => {

@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { useAppContext } from 'providers/AppProvider';
 import { Navbar } from 'react-bootstrap';
-import logo from 'assets/img/icons/logo.png';
+import logo from 'assets/img/icons/logo-back-1.png';
 import { useBreakpoints } from 'providers/BreakpointsProvider';
 import NavbarToggleButton from './NavbarToggleButton';
 import { Link } from 'react-router';

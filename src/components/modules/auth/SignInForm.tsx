@@ -47,16 +47,16 @@ const SignInForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
   return (
     <Form onSubmit={handleSubmit}>
       <div className="text-center mb-7">
-        <h3 className="text-body-highlight">Sign In</h3>
-        <p className="text-body-tertiary">Get access to your account</p>
+        <h3 className="text-body-highlight">Iniciar Seción</h3>
+        <p className="text-body-tertiary">Accede con tu cuenta</p>
       </div>
 
-      <AuthSocialButtons title="Sign in" />
+      {/*<AuthSocialButtons title="Sign in" />*/}
 
-      <div className="position-relative">
-        <hr className="bg-body-secondary mt-5 mb-4" />
-        <div className="divider-content-center">or use email</div>
-      </div>
+      {/*<div className="position-relative">*/}
+      {/*  <hr className="bg-body-secondary mt-5 mb-4" />*/}
+      {/*  <div className="divider-content-center">or use email</div>*/}
+      {/*</div>*/}
 
       {error && (
         <div className="alert alert-danger text-start" role="alert">

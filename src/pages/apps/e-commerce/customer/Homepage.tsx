@@ -78,12 +78,12 @@ const Homepage = () => {
             <Col xs={12}>
               <EcomWhopingBanner />
             </Col>
-            <Col xs={12} xl={6}>
-              <EcomGiftItemsBanner />
-            </Col>
-            <Col xs={12} xl={6}>
-              <EcomBestInMarketBanner />
-            </Col>
+            {/*<Col xs={12} xl={6}>*/}
+            {/*  <EcomGiftItemsBanner />*/}
+            {/*</Col>*/}
+            {/*<Col xs={12} xl={6}>*/}
+            {/*  <EcomBestInMarketBanner />*/}
+            {/*</Col>*/}
           </Row>
           <Row className="g-4 mb-6">
             <Col xs={12} lg={9} xxl={10}>
@@ -118,10 +118,10 @@ const Homepage = () => {
           <div className="mb-6">
             <EcomTopElectronics products={accesories} title="Accesorios" />
           </div>
-          <div className="mb-6">
-            <EcomBestOffers products={bestOfferProducts} />
-          </div>
-          <EcomBecomeMember />
+          {/*<div className="mb-6">*/}
+          {/*  <EcomBestOffers products={bestOfferProducts} />*/}
+          {/*</div>*/}
+          {/*<EcomBecomeMember />*/}
         </Container>
       </section>
     </div>

@@ -24,56 +24,56 @@ type Category = {
 
 const categories: Category[] = [
   {
-    label: 'Deals',
+    label: 'Ofertas',
     bgClass: 'bg-warning-subtle',
     url: '#!',
     icon: <UilStar fill='currentColor' className="text-warning" size={39} />
   },
   {
-    label: 'Grocery',
+    label: 'Accesorios',
     url: '#!',
     icon: <UilShoppingBag fill='currentColor' size={39} />
   },
   {
-    label: 'Fashion',
+    label: 'Moda',
     url: '#!',
     icon: <UilWatchAlt fill='currentColor' size={39} />
   },
+  // {
+  //   label: 'Mobile',
+  //   url: '#!',
+  //   icon: <UilMobileAndroid fill='currentColor' size={39} />
+  // },
   {
-    label: 'Mobile',
-    url: '#!',
-    icon: <UilMobileAndroid fill='currentColor' size={39} />
-  },
-  {
-    label: 'Electronics',
+    label: 'Electrónica',
     url: '#!',
     icon: <UilMonitor fill='currentColor' size={39} />
   },
   {
-    label: 'Home',
+    label: 'Hogar',
     url: '#!',
     icon: <UilEstate fill='currentColor' size={39} />
   },
+  // {
+  //   label: 'Dining',
+  //   url: '#!',
+  //   icon: <UilLamp fill='currentColor' size={39} />
+  // },
   {
-    label: 'Dining',
-    url: '#!',
-    icon: <UilLamp fill='currentColor' size={39} />
-  },
-  {
-    label: 'Gifts',
+    label: 'Regalos',
     url: '#!',
     icon: <UilGift fill='currentColor' size={39} />
   },
   {
-    label: 'Tools',
+    label: 'Herramientas',
     url: '#!',
     icon: <UilWrench fill='currentColor' size={39} />
   },
-  {
-    label: 'Travel',
-    url: '#!',
-    icon: <UilPlaneDeparture fill='currentColor' size={39} />
-  },
+  // {
+  //   label: 'Travel',
+  //   url: '#!',
+  //   icon: <UilPlaneDeparture fill='currentColor' size={39} />
+  // },
   {
     label: 'Others',
     url: '#!',

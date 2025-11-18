@@ -32,36 +32,36 @@ const initNavItems: NavItemType[] = [
     label: 'Home',
     url: '/apps/e-commerce/customer/homepage'
   },
-  {
-    id: 2,
-    label: 'My Favorite Stores',
-    url: '/apps/e-commerce/customer/favorite-stores'
-  },
+  // {
+  //   id: 2,
+  //   label: 'My Favorite Stores',
+  //   url: '/apps/e-commerce/customer/favorite-stores'
+  // },
   {
     id: 3,
-    label: 'Products',
+    label: 'Productos',
     url: '/apps/e-commerce/customer/products-filter'
   },
-  {
-    id: 4,
-    label: 'Wishlist',
-    url: '/apps/e-commerce/customer/wishlist'
-  },
-  {
-    id: 5,
-    label: 'Shipping Info',
-    url: '/apps/e-commerce/customer/shipping-info'
-  },
+  // {
+  //   id: 4,
+  //   label: 'Wishlist',
+  //   url: '/apps/e-commerce/customer/wishlist'
+  // },
+  // {
+  //   id: 5,
+  //   label: 'Shipping Info',
+  //   url: '/apps/e-commerce/customer/shipping-info'
+  // },
   {
     id: 6,
     label: 'Be a vendor',
     url: '/apps/e-commerce/admin/add-product'
   },
-  {
-    id: 7,
-    label: 'Track order',
-    url: '/apps/e-commerce/customer/order-tracking'
-  },
+  // {
+  //   id: 7,
+  //   label: 'Track order',
+  //   url: '/apps/e-commerce/customer/order-tracking'
+  // },
   {
     id: 8,
     label: 'Checkout',
@@ -125,13 +125,13 @@ const EcommerceNavbar = () => {
         ref={containerRef}
       >
         <Dropdown ref={otherElsRef}>
-          <Dropdown.Toggle
-            variant=""
-            className="text-body ps-0 pe-5 text-nowrap dropdown-toggle dropdown-caret-none"
-          >
-            <FontAwesomeIcon icon={faBars} className="me-2" />
-            Category
-          </Dropdown.Toggle>
+          {/*<Dropdown.Toggle*/}
+          {/*  variant=""*/}
+          {/*  className="text-body ps-0 pe-5 text-nowrap dropdown-toggle dropdown-caret-none"*/}
+          {/*>*/}
+          {/*  <FontAwesomeIcon icon={faBars} className="me-2" />*/}
+          {/*  Category*/}
+          {/*</Dropdown.Toggle>*/}
 
           <Dropdown.Menu className="border border-translucent py-0 category-dropdown-menu">
             <Card className="border-0">
