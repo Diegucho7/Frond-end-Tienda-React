@@ -1,7 +1,7 @@
 import { faKey, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'components/base/Button';
-import AuthSocialButtons from 'components/common/AuthSocialButtons';
+// import AuthSocialButtons from 'components/common/AuthSocialButtons';
 import { useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 import { Link } from 'react-router';
@@ -37,7 +37,8 @@ const SignInForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
       console.log('Login success:', data);
 
       localStorage.setItem('accessToken', data.token);
-      navigate('/apps/e-commerce/customer/homepage', { replace: true });
+      // navigate('/apps/e-commerce/customer/homepage', { replace: true });
+      navigate('/homepage', { replace: true });
 
     } catch (err: any) {
       setError(err.message);

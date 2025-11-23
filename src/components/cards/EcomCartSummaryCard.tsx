@@ -52,7 +52,8 @@ const EcomCartSummaryCard = ({ products }: EcomCartTableProps) => {
         </div>
         <Button
           as={Link}
-          to="/apps/e-commerce/customer/shipping-info"
+          // to="/apps/e-commerce/customer/shipping-info"
+          to="/shipping-info"
           className="w-100"
           variant="primary"
           endIcon={

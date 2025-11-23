@@ -43,7 +43,8 @@ const ProductCard = ({ product }: { product: ProductType }) => {
           </div>
           <Link
             // to="/apps/e-commerce/customer/product-details"
-            to={`/apps/e-commerce/customer/product-details/${product.id}`}
+            // to={`/apps/e-commerce/customer/product-details/${product.id}`}
+            to={`/product-details/${product.id}`}
             className="stretched-link"
           >
             <h6 className="mb-2 lh-sm line-clamp-3 product-name">

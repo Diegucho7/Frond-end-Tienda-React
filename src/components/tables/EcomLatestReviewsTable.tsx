@@ -33,7 +33,8 @@ const columns: ColumnDef<LatestReviewsTableDataType>[] = [
       const { productImage } = original;
       return (
         <Link
-          to="/apps/e-commerce/customer/product-details"
+          // to="/apps/e-commerce/customer/product-details"
+          to="/product-details"
           className="d-block rounded-2 border border-translucent"
         >
           <img src={productImage} alt="" width={53} />
@@ -50,7 +51,8 @@ const columns: ColumnDef<LatestReviewsTableDataType>[] = [
       const { product } = original;
       return (
         <Link
-          to="/apps/e-commerce/customer/product-details"
+          // to="/apps/e-commerce/customer/product-details"
+          to="/product-details"
           className="fw-semibold"
         >{`${product.slice(0, 46)}${product.length > 46 ? '...' : ''}`}</Link>
       );

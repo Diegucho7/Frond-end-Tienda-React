@@ -16,7 +16,8 @@ const EcomTopDeals = ({ products }: { products: Product[] }) => {
           <h3 className="mx-2">Las mejores ofertas de hoy  </h3>
           <FontAwesomeIcon icon={faBolt} className="text-warning fs-6" />
         </div>
-        <Link to="/apps/e-commerce/customer/products-filter" className="btn btn-link btn-lg p-0 d-none d-md-block">
+        {/*<Link to="/apps/e-commerce/customer/products-filter" className="btn btn-link btn-lg p-0 d-none d-md-block">*/}
+        <Link to="/products-filter" className="btn btn-link btn-lg p-0 d-none d-md-block">
           Explorar más
           <FontAwesomeIcon icon={faChevronRight} className="fs-9 ms-1" />
         </Link>

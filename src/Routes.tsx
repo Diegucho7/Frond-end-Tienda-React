@@ -1092,7 +1092,8 @@ const routes: RouteObject[] = [
 
       {
         element: <EcommerceLayout />,
-        path: '/apps/e-commerce/customer/',
+        // path: '/apps/e-commerce/customer/',
+        path: '/',
         children: [
           {
             path: 'homepage',

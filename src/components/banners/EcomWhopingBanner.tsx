@@ -36,7 +36,8 @@ const EcomWhopingBanner = () => {
 
         </div>
         <Link
-          to="/apps/e-commerce/customer/products-filter"
+          // to="/apps/e-commerce/customer/products-filter"
+          to="/products-filter"
           className="btn btn-lg btn-primary rounded-pill banner-button"
         >
           Compra ahora        </Link>

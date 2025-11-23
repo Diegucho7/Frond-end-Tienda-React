@@ -30,7 +30,8 @@ const initNavItems: NavItemType[] = [
   {
     id: 1,
     label: 'Home',
-    url: '/apps/e-commerce/customer/homepage'
+    // url: '/apps/e-commerce/customer/homepage'
+    url: '/homepage'
   },
   // {
   //   id: 2,
@@ -40,7 +41,8 @@ const initNavItems: NavItemType[] = [
   {
     id: 3,
     label: 'Productos',
-    url: '/apps/e-commerce/customer/products-filter'
+    // url: '/apps/e-commerce/customer/products-filter'
+    url: '/products-filter'
   },
   // {
   //   id: 4,
@@ -65,7 +67,8 @@ const initNavItems: NavItemType[] = [
   {
     id: 8,
     label: 'Checkout',
-    url: '/apps/e-commerce/customer/checkout'
+    url: '/checkout'
+    // url: '/apps/e-commerce/customer/checkout'
   }
 ];
 
