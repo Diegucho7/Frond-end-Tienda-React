@@ -5,16 +5,44 @@ import Scrollbar from 'components/base/Scrollbar';
 import QuantityButtons from 'components/common/QuantityButtons';
 import { CartItemType } from 'data/e-commerce/products';
 import { currencyFormat } from 'helpers/utils';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect, useRef } from 'react';
 import { Table } from 'react-bootstrap';
 import { Link } from 'react-router';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 interface EcomCartTableProps {
   products: CartItemType[];
+  onUpdateQuantity?: (productId: string | number, quantity: number) => void;
+  onRemoveProduct?: (productId: string | number) => void;
 }
 
-const EcomCartTable = ({ products }: EcomCartTableProps) => {
+const EcomCartTable = ({ products, onUpdateQuantity, onRemoveProduct }: EcomCartTableProps) => {
+  // Calcular subtotal dinámicamente
+  const subtotal = useMemo(() => {
+    return products.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  }, [products]);
+
+  const itemCount = useMemo(() => {
+    return products.reduce((acc, item) => acc + item.quantity, 0);
+  }, [products]);
+
+  if (products.length === 0) {
+    return (
+      <div className="text-center py-5">
+        <div className="mb-3">
+          <FontAwesomeIcon icon={faTrash} className="text-body-tertiary" style={{ fontSize: '3rem' }} />
+        </div>
+        <h5 className="text-body-tertiary">Tu carrito está vacío</h5>
+        <p className="text-body-tertiary mb-0">
+          <Link to="/products-filter">Explorar productos</Link>
+        </p>
+      </div>
+    );
+  }
+
   return (
     <Scrollbar style={{ maxHeight: '100%' }} className="table-scrollbar">
       <Table className="phoenix-table fs-9 mb-0 border-top border-translucent">
@@ -22,39 +50,40 @@ const EcomCartTable = ({ products }: EcomCartTableProps) => {
           <tr>
             <th scope="col" />
             <th scope="col" style={{ minWidth: 250 }}>
-              PRODUCTOS
+              PRODUCTO
             </th>
-            <th scope="col" style={{ width: 80 }}>
-              COLOR
-            </th>
-            <th scope="col" style={{ width: 150 }}>
-              TAMAÑO
-            </th>
-            <th className="text-end" scope="col" style={{ width: 300 }}>
+            <th className="text-end" scope="col" style={{ width: 120 }}>
               PRECIO
             </th>
-            <th className="ps-5" scope="col" style={{ width: 200 }}>
+            <th className="text-center" scope="col" style={{ width: 150 }}>
               CANTIDAD
             </th>
-            <th className="text-end" scope="col" style={{ width: 250 }}>
+            <th className="text-end" scope="col" style={{ width: 120 }}>
               TOTAL
             </th>
-            <th className="text-end pe-0" scope="col" />
+            <th className="text-end pe-0" scope="col" style={{ width: 50 }} />
           </tr>
         </thead>
         <tbody className="list" id="cart-table-body">
           {products.map(product => (
-            <EcomCartTableRow product={product} key={product.id} />
+            <EcomCartTableRow
+              product={product}
+              key={product.id}
+              onUpdateQuantity={onUpdateQuantity}
+              onRemoveProduct={onRemoveProduct}
+            />
           ))}
 
-          <tr className="cart-table-row">
+          <tr className="cart-table-row bg-body-highlight">
             <td
               className="text-body-emphasis fw-semibold ps-0 fs-8"
-              colSpan={6}
+              colSpan={4}
             >
-              Items subtotal :
+              Subtotal ({itemCount} {itemCount === 1 ? 'artículo' : 'artículos'}) :
             </td>
-            <td className="text-body-emphasis fw-bold text-end fs-8">$691</td>
+            <td className="text-body-emphasis fw-bold text-end fs-8">
+              {currencyFormat(subtotal, { minimumFractionDigits: 2 })}
+            </td>
             <td />
           </tr>
         </tbody>
@@ -63,67 +92,154 @@ const EcomCartTable = ({ products }: EcomCartTableProps) => {
   );
 };
 
-const EcomCartTableRow = ({ product }: { product: CartItemType }) => {
+interface EcomCartTableRowProps {
+  product: CartItemType;
+  onUpdateQuantity?: (productId: string | number, quantity: number) => void;
+  onRemoveProduct?: (productId: string | number) => void;
+}
+
+const EcomCartTableRow = ({ product, onUpdateQuantity, onRemoveProduct }: EcomCartTableRowProps) => {
   const [quantity, setQuantity] = useState(product.quantity);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const initialQuantityRef = useRef(product.quantity);
+
+  // Sincronizar con props cuando cambie externamente
+  useEffect(() => {
+    setQuantity(product.quantity);
+    initialQuantityRef.current = product.quantity;
+  }, [product.quantity]);
 
   const total = useMemo(() => {
     return product.price * quantity;
-  }, [quantity]);
+  }, [product.price, quantity]);
+
+  // Actualizar cantidad en el backend cuando cambie
+  useEffect(() => {
+    // No actualizar si es el valor inicial o si es menor a 1
+    if (quantity === initialQuantityRef.current || quantity < 1) return;
+
+    const timeoutId = setTimeout(async () => {
+      setIsUpdating(true);
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${API_URL}/api/shoppingcart/${String(product.IdCart)}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-token': token || '',
+          },
+          body: JSON.stringify({ quantity }),
+        });
+
+        if (response.ok) {
+          initialQuantityRef.current = quantity;
+          onUpdateQuantity?.(product.id, quantity);
+        } else {
+          toast.error('Error al actualizar cantidad');
+          setQuantity(initialQuantityRef.current); // Revertir
+        }
+      } catch (error) {
+        console.error('Error updating quantity:', error);
+        toast.error('Error al actualizar cantidad');
+        setQuantity(initialQuantityRef.current); // Revertir
+      } finally {
+        setIsUpdating(false);
+      }
+    }, 800); // Debounce de 800ms
+
+    return () => clearTimeout(timeoutId);
+  }, [quantity, product.IdCart, product.id, onUpdateQuantity]);
 
   const handleDelete = async () => {
+    setIsDeleting(true);
     try {
-      const response = await fetch(`http://localhost:3000/api/shoppingcart/${String(product.IdCart)}`, {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_URL}/api/shoppingcart/${String(product.IdCart)}`, {
         method: 'DELETE',
+        headers: {
+          'x-token': token || '',
+        },
       });
 
-      const result = await response.json();
-      toast.success('Producto eliminado');
-      setTimeout(() => {
-        window.location.reload(); // 🔄 Recarga toda la página
-      }, 1500);
+      if (response.ok) {
+        toast.success('Producto eliminado del carrito');
+        onRemoveProduct?.(product.id);
+        // Recargar para actualizar la lista
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
+      } else {
+        toast.error('Error al eliminar producto');
+        setIsDeleting(false);
+      }
     } catch (error) {
-      toast.error('Hubo un error');
+      console.error('Error deleting product:', error);
+      toast.error('Error al eliminar producto');
+      setIsDeleting(false);
     }
   };
 
   return (
-    <tr className="cart-table-row" key={product.id}>
-      <td className="py-0">
-        <div className="border border-translucent rounded-2">
-          <img src={product.image} alt={product.name} width={53} />
-        </div>
-      </td>
-      <td>
-        <Link className="fw-semibold line-clamp-2" to="#!">
-          {product.name}
+    <tr className={`cart-table-row ${isDeleting ? 'opacity-50' : ''}`}>
+      <td className="py-2">
+        <Link to={`/product-details/${product.id}`}>
+          <div className="border border-translucent rounded-2 overflow-hidden" style={{ width: 60, height: 60 }}>
+            <img
+              src={product.image}
+              alt={product.name}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = '/placeholder-product.png';
+              }}
+            />
+          </div>
         </Link>
       </td>
-      <td className="white-space-nowrap">{product.color}</td>
-      <td className="white-space-nowrap text-body-tertiary fw-semibold">
-        {product.size}
+      <td>
+        <Link
+          className="fw-semibold line-clamp-2 text-decoration-none"
+          to={`/product-details/${product.id}`}
+        >
+          {product.name}
+        </Link>
+        {product.color && product.color !== 'white' && (
+          <small className="text-body-tertiary d-block">Color: {product.color}</small>
+        )}
+        {product.size && product.size !== 'small' && (
+          <small className="text-body-tertiary d-block">Talla: {product.size}</small>
+        )}
       </td>
-      <td className="fw-semibold text-end">{currencyFormat(product.price)}</td>
-      <td className="fs-8 ps-5">
-        <QuantityButtons
-          type="secondary"
-          quantity={quantity}
-          setQuantity={setQuantity}
-        />
+      <td className="fw-semibold text-end">
+        {currencyFormat(product.price, { minimumFractionDigits: 2 })}
+      </td>
+      <td className="text-center">
+        <div className="d-flex justify-content-center">
+          <QuantityButtons
+            type="secondary"
+            quantity={quantity}
+            setQuantity={setQuantity}
+          />
+        </div>
+        {isUpdating && (
+          <small className="text-body-tertiary">Actualizando...</small>
+        )}
       </td>
       <td className="fw-bold text-body-highlight text-end">
-        {currencyFormat(total)}
+        {currencyFormat(total, { minimumFractionDigits: 2 })}
       </td>
-      <td className="text-end ps-3">
+      <td className="text-end ps-2">
         <Button
           size="sm"
           variant="link"
-          className="text-body-quaternary text-body-tertiary-hover me-2"
-          onClick={handleDelete} // 
+          className="text-danger p-0"
+          onClick={handleDelete}
+          disabled={isDeleting}
+          title="Eliminar del carrito"
         >
           <FontAwesomeIcon icon={faTrash} />
         </Button>
       </td>
-      <ToastContainer />
     </tr>
   );
 };

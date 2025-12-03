@@ -7,16 +7,17 @@ import ProfileDropdownMenu from '../nav-items/ProfileDropdownMenu';
 import SearchBox from 'components/common/SearchBox';
 import ThemeToggler from 'components/common/ThemeToggler';
 import { useState, useEffect } from 'react';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const EcommerceTopbar = () => {
 
   const [count, setCount] = useState(0);
-  const token = localStorage.getItem("accessToken");
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchCount = async () => {
       try {
-        const resp = await fetch("http://localhost:3000/api/shoppingcart/number", {
+        const resp = await fetch(`${API_URL}/api/shoppingcart/number`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

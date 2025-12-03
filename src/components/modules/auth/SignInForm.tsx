@@ -1,63 +1,39 @@
 import { faKey, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'components/base/Button';
-// import AuthSocialButtons from 'components/common/AuthSocialButtons';
 import { useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
-import { Link } from 'react-router';
-import { useNavigate } from 'react-router';  // o 'react-router-dom'
+import { Link, useNavigate } from 'react-router';
+import { useAuth } from '../../../context/AuthContext';
 
 const SignInForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-
   const [error, setError] = useState<string | null>(null);
+
   const navigate = useNavigate();
+  const { login } = useAuth(); // <-- Aquí sí va
 
   const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault(); // Evita que recargue la página
+    event.preventDefault();
 
-    try {
-      const response = await fetch('http://localhost:3000/api/auth', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+    const ok = await login(email, password);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Login failed');
-      }
-
-      const data = await response.json();
-      console.log('Login success:', data);
-
-      localStorage.setItem('accessToken', data.token);
-      // navigate('/apps/e-commerce/customer/homepage', { replace: true });
-      navigate('/homepage', { replace: true });
-
-    } catch (err: any) {
-      setError(err.message);
+    if (!ok) {
+      setError("Credenciales incorrectas");
+      return;
     }
+
+    navigate('/', { replace: true });
   };
 
   return (
     <Form onSubmit={handleSubmit}>
       <div className="text-center mb-7">
-        <h3 className="text-body-highlight">Iniciar Seción</h3>
+        <h3 className="text-body-highlight">Iniciar Sesión</h3>
         <p className="text-body-tertiary">Accede con tu cuenta</p>
       </div>
-
-      {/*<AuthSocialButtons title="Sign in" />*/}
-
-      {/*<div className="position-relative">*/}
-      {/*  <hr className="bg-body-secondary mt-5 mb-4" />*/}
-      {/*  <div className="divider-content-center">or use email</div>*/}
-      {/*</div>*/}
 
       {error && (
         <div className="alert alert-danger text-start" role="alert">
@@ -105,16 +81,16 @@ const SignInForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
               defaultChecked
             />
             <Form.Check.Label htmlFor="remember-me" className="mb-0">
-              Remember me
+              Recuerdame
             </Form.Check.Label>
           </Form.Check>
         </Col>
         <Col xs="auto">
           <Link
-            to={`/pages/authentication/${layout}/forgot-password`}
+            to={`/authentication/forgot-password`}
             className="fs-9 fw-semibold"
           >
-            Forgot Password?
+            Olvide mi contraseña?
           </Link>
         </Col>
       </Row>
@@ -125,7 +101,7 @@ const SignInForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
 
       <div className="text-center">
         <Link
-          to={`/pages/authentication/${layout}/sign-up`}
+          to={`/authentication/sign-up`}
           className="fs-9 fw-bold"
         >
           Create an account
@@ -134,6 +110,5 @@ const SignInForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
     </Form>
   );
 };
-
 
 export default SignInForm;

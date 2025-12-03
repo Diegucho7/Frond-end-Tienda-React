@@ -16,6 +16,7 @@ import EcomTopElectronics from 'components/sliders/EcomTopElectronics';
 import EcomBestOffers from 'components/sliders/EcomBestOffers';
 import EcomBecomeMember from 'components/cta/EcomBecomeMember';
 import { useEffect, useState } from 'react';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Homepage = () => {
 
@@ -28,17 +29,16 @@ const Homepage = () => {
 
     const tablaDatos = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/productos', {
+        const response = await fetch( `${API_URL}/api/productos`, {
           method: 'GET',
-
         });
 
         const json = await response.json();
         const mappedProducts: Product[] = json.products.map((item: any) => ({
           id: item.IdProduct,
           name: item.name,
-          image: `http://localhost:3000/api/uploads/productos/${item.imagenes[0]}`, // ajusta si tienes otra ruta
-          price: parseFloat(item.price) + 10,
+          image: `${API_URL}/api/uploads/productos/${item.imagenes[0]}`, // ajusta si tienes otra ruta
+          price: parseFloat(item.price) * 1.10,
           salePrice: parseFloat(item.price),
           // category: item.marca, // puedes reemplazar con el nombre si tienes un mapa de categorías
           // tags: [item.marca], // podrías agregar tags desde item.description si quieres
@@ -50,7 +50,9 @@ const Homepage = () => {
 
         setProductsData(mappedProducts);
       } catch (err) {
+
         console.error('Error al obtener productos:', err);
+        console.log(`${API_URL} + dirección IP fallida` );
       }
     };
     tablaDatos();

@@ -4,55 +4,57 @@ import { currencyFormat } from 'helpers/utils';
 import useAdvanceTable from 'hooks/useAdvanceTable';
 import AdvanceTableProvider from 'providers/AdvanceTableProvider';
 import { Link } from 'react-router';
-import {
-  WishlistProductType,
-  wishlistProducts
-} from 'data/e-commerce/products';
 import { useMemo } from 'react';
+import { OrderProduct } from 'pages/apps/e-commerce/admin/OrderDetails';
 
-const columns: ColumnDef<WishlistProductType>[] = [
+const API_URL = import.meta.env.VITE_API_URL;
+
+const columns: ColumnDef<OrderProduct>[] = [
   {
     id: 'productImage',
-    accessorKey: '',
+    accessorKey: 'image',
+    header: '',
     cell: ({ row: { original } }) => {
-      const { productImage } = original;
+      const imageSrc = original.image
+        ? `${API_URL}/api/uploads/productos/${original.image}`
+        : '/placeholder-product.png';
       return (
         <div className="rounded-2 border border-translucent d-inline-block">
-          <img src={productImage} alt="" width={53} />
+          <img src={imageSrc} alt={original.name} width={53} />
         </div>
       );
     },
     meta: { cellProps: { className: 'py-2' } }
   },
   {
-    accessorKey: 'product',
-    header: 'Products',
+    accessorKey: 'name',
+    header: 'Productos',
     cell: ({ row: { original } }) => {
-      const { product } = original;
+      const { name, productId } = original;
       return (
-        <Link to="#!" className="fw-semibold line-clamp-2">
-          {product}
+        <Link to={`/admin/apps/e-commerce/admin/edit-product/${productId}`} className="fw-semibold line-clamp-2">
+          {name}
         </Link>
       );
     },
     meta: {
-      headerProps: { style: { minWidth: 380 } },
+      headerProps: { style: { minWidth: 300 } },
       cellProps: { className: '' }
     }
   },
   {
-    accessorKey: 'color',
-    header: 'Color',
+    accessorKey: 'brand',
+    header: 'Marca',
     meta: {
-      headerProps: { style: { width: 150 }, className: 'ps-4' },
+      headerProps: { style: { width: 120 }, className: 'ps-4' },
       cellProps: { className: 'white-space-nowrap text-body ps-4' }
     }
   },
   {
-    accessorKey: 'size',
-    header: 'Size',
+    accessorKey: 'code',
+    header: 'Código',
     meta: {
-      headerProps: { style: { width: 300 }, className: 'ps-4' },
+      headerProps: { style: { width: 120 }, className: 'ps-4' },
       cellProps: {
         className: 'white-space-nowrap text-body-tertiary fw-semibold ps-4'
       }
@@ -60,19 +62,19 @@ const columns: ColumnDef<WishlistProductType>[] = [
   },
   {
     accessorKey: 'price',
-    header: 'Price',
+    header: 'Precio',
     cell: ({ row: { original } }) => currencyFormat(original.price),
     meta: {
-      headerProps: { style: { width: 150 }, className: 'ps-4 text-end' },
+      headerProps: { style: { width: 120 }, className: 'ps-4 text-end' },
       cellProps: { className: 'text-body fw-semibold text-end ps-4' }
     }
   },
   {
     accessorKey: 'quantity',
-    header: 'Quantity',
+    header: 'Cantidad',
     meta: {
-      headerProps: { style: { width: 200 }, className: 'ps-4 text-end' },
-      cellProps: { className: 'text-end ps-4 text-body-tertiary' }
+      headerProps: { style: { width: 100 }, className: 'ps-4 text-center' },
+      cellProps: { className: 'text-center ps-4 text-body-tertiary' }
     }
   },
   {
@@ -80,29 +82,33 @@ const columns: ColumnDef<WishlistProductType>[] = [
     accessorFn: ({ price, quantity }) => price * quantity,
     header: 'Total',
     cell: ({ row: { original } }) =>
-      currencyFormat(original.price * original.quantity),
+      currencyFormat(original.total || original.price * original.quantity),
     meta: {
-      headerProps: { style: { width: 250 }, className: 'ps-4 text-end' },
+      headerProps: { style: { width: 150 }, className: 'ps-4 text-end' },
       cellProps: { className: 'fw-bold text-body-highlight text-end ps-4' }
     }
   }
 ];
 
-const OrderDetailsTable = () => {
+interface OrderDetailsTableProps {
+  products: OrderProduct[];
+}
+
+const OrderDetailsTable = ({ products = [] }: OrderDetailsTableProps) => {
   const table = useAdvanceTable({
-    data: wishlistProducts,
+    data: products,
     columns,
-    pageSize: 6,
+    pageSize: 10,
     pagination: true,
     sortable: true
   });
 
   const subtotal = useMemo(() => {
-    return wishlistProducts.reduce(
-      (sum, item) => sum + item.price * item.quantity,
+    return products.reduce(
+      (sum, item) => sum + (item.subtotal || item.price * item.quantity),
       0
     );
-  }, [wishlistProducts]);
+  }, [products]);
 
   return (
     <div>
@@ -111,7 +117,7 @@ const OrderDetailsTable = () => {
           <AdvanceTable tableProps={{ className: 'phoenix-table fs-9' }} />
           <div className="d-flex flex-between-center py-3">
             <p className="text-body-emphasis fw-semibold lh-sm mb-0">
-              Items subtotal :
+              Subtotal de artículos :
             </p>
             <p className="text-body-emphasis fw-bold lh-sm mb-0">
               {currencyFormat(subtotal)}

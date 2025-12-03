@@ -79,7 +79,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
               {product.price ? (
                 <div className="d-flex align-items-center mb-1">
                   <p className="me-2 text-body text-decoration-line-through mb-0">
-                    {currencyFormat(product.price)}
+                    {currencyFormat(product.price )}
                   </p>
                   <h3 className="text-body-emphasis mb-0">
                     {currencyFormat(product.salePrice)}

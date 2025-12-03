@@ -9,6 +9,8 @@ import { Col, Row } from 'react-bootstrap';
 // import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Cart = () => {
 
   const [productsData, setProductsData] = useState<CartItemType[]>([]);
@@ -16,13 +18,13 @@ const Cart = () => {
   useEffect(() => {
     const tablaDatos = async () => {
       try {
-        const token = localStorage.getItem('accessToken');
+        const token = localStorage.getItem('token');
         if (!token) {
           console.warn('No hay token en localStorage');
           return;
         }
 
-        const response = await fetch('http://localhost:3000/api/shoppingcart', {
+        const response = await fetch(`${API_URL}/api/shoppingcart` , {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -31,7 +33,6 @@ const Cart = () => {
         });
 
         const json = await response.json();
-        console.log(json);
 
         const mappedProducts: CartItemType[] = (json.shoppingCart || json.products || []).map((item: any) => {
           const price = parseFloat(item.price);
@@ -42,7 +43,7 @@ const Cart = () => {
             IdCart: item.IdCart,
             id: item.IdProduct,
             name: item.name,
-            image: `http://localhost:3000/api/uploads/productos/${item.imagen ?? 'no-image.png'}`,
+            image: `${API_URL}/api/uploads/productos/${item.imagen ?? 'no-image.png'}`,
             color: 'white',
             size: 'small',
             price,

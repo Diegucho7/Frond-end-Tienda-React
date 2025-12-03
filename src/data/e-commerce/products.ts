@@ -26,10 +26,10 @@ import huawei from 'assets/img/brands/huawei.png';
 import intel from 'assets/img/brands/intel.png';
 
 export type Product = {
-  id: number;
-  image: string;
+  id: number | string;
+  image?: string;
   name: string;
-  rating: number;
+  rating?: number;
   rated?: number;
   price?: number;
   salePrice?: number;
@@ -42,6 +42,13 @@ export type Product = {
   wishListed?: boolean;
   offer?: string;
   dealEndTime?: string;
+  // Campos adicionales para filtros
+  category?: string;
+  categoryName?: string;
+  subcategory?: string;
+  brand?: string;
+  starred?: boolean;
+  publishedOn?: string;
 };
 
 export type SuggestedProductType = {
@@ -79,6 +86,7 @@ export type productoDetail = {
   name: string,
   marca: string,
   category: string,
+  subcategory?: string,
   price: string,
   stock: number,
   description: string,

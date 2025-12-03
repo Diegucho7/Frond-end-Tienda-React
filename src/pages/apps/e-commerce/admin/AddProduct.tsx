@@ -2,19 +2,15 @@ import Button from 'components/base/Button';
 import Dropzone from 'components/base/Dropzone';
 import TinymceEditor from 'components/base/TinymceEditor';
 import OrganizeFormCard from 'components/cards/OrganizeFormCard';
-import VariantFormCard from 'components/cards/VariantFormCard';
 import PageBreadcrumb from 'components/common/PageBreadcrumb';
 import InventoryTab from 'components/tabs/InventoryTab';
 import { defaultBreadcrumbItems } from 'data/commonData';
 import { Col, Form, Row } from 'react-bootstrap';
 import { useState } from 'react';
-import { Editor } from '@tinymce/tinymce-react';
+import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
-interface Props {
-  value: string;
-  onChange: (value: string) => void;
-  options?: any;
-}
+const API_URL = import.meta.env.VITE_API_URL;
 const AddProduct = () => {
 
 
@@ -22,26 +18,56 @@ const AddProduct = () => {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [stock, setStock] = useState('');
-  const [regularPrice, setRegularPrice] = useState('');
+  const [costPrice, setCostPrice] = useState('');
   const [marca, setMarca] = useState('');
   const [code, setCode] = useState('');
   const [category, setCategory] = useState('');
-  const [salePrice, setSalePrice] = useState('');
+  const [subcategory, setSubcategory] = useState('');
   const [productFiles, setProductFiles] = useState<(File | string)[]>([]);
 
+  const navigate = useNavigate();
+
   const agregarProducto = async () => {
+    // Validaciones (campos requeridos por el backend)
+    if (!name.trim()) {
+      toast.warning('El nombre del producto es obligatorio');
+      return;
+    }
+    if (!price || Number(price) <= 0) {
+      toast.warning('El precio debe ser mayor a 0');
+      return;
+    }
+    if (!category) {
+      toast.warning('Selecciona una categoría');
+      return;
+    }
+    if (!description.trim()) {
+      toast.warning('La descripción es obligatoria');
+      return;
+    }
+    if (stock === '' || Number(stock) < 0) {
+      toast.warning('El stock debe ser 0 o mayor');
+      return;
+    }
+
     try {
-      // 1️⃣ Crear producto
+      // Crear producto
       const productoId = await crearProducto();
 
-      // 2️⃣ Subir imágenes solo si hay archivos
+      if (!productoId) {
+        throw new Error('No se pudo obtener el ID del producto');
+      }
+
+      // Subir imágenes solo si hay archivos
       if (productFiles.length > 0) {
         await subirImagenes(productoId);
       }
 
-      alert('Producto y sus imágenes se subieron correctamente');
+      toast.success("¡Producto agregado correctamente!");
+      navigate(`/admin/apps/e-commerce/admin/products`);
     } catch (error: any) {
-      alert('Error al subir producto: ' + error.message);
+      console.error('Error:', error);
+      toast.error(error.message || 'Hubo un error al crear el producto');
     }
   };
 
@@ -52,11 +78,11 @@ const AddProduct = () => {
         formData.append('imagenes', file);
       });
 
-      const response = await fetch(`http://localhost:3000/api/uploads/productos/${productoId}`, {
+      const response = await fetch(`${API_URL}/api/uploads/productos/${productoId}`, {
         method: 'PUT',
         body: formData,
         headers: {
-          'x-token': localStorage.getItem('accessToken') ?? ''
+          'x-token': localStorage.getItem('token') ?? ''
         }
       });
 
@@ -72,45 +98,56 @@ const AddProduct = () => {
   };
 
   const crearProducto = async () => {
-
     try {
-      console.log('Creando producto con datos:', {
-        name,
-        code,
-        marca: "Maers34",
-        category,
-        price,
-        regularPrice: 3,
-        description,
-        stock
-      });
-      const response = await fetch('http://localhost:3000/api/productos', {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('No hay sesión activa. Por favor inicia sesión.');
+      }
+
+      // Preparar datos - convertir a números
+      // El backend requiere: name, price, regularPrice, category, description
+      const productData = {
+        name: name.trim(),
+        code: code.trim() || null,
+        marca: marca.trim() || null,
+        category: category,
+        subcategory: subcategory || null,
+        price: Number(price),             // Requerido
+        regularPrice: Number(price),      // Requerido
+        salePrice: Number(price),
+        costPrice: costPrice ? Number(costPrice) : 0,
+        description: description || 'Sin descripción',  // Requerido
+        stock: Number(stock)
+      };
+
+      console.log('📦 Enviando producto:', productData);
+
+      const response = await fetch(`${API_URL}/api/productos`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-token': localStorage.getItem('accessToken') ?? ''
+          'x-token': token
         },
-        body: JSON.stringify({
-          name,
-          code,
-          marca: "Maers34",
-          category,
-          price,
-          regularPrice: 3,
-          description,
-          stock
-        })
+        body: JSON.stringify(productData)
       });
 
-      const data = await response.json(); // ✅ solo una vez
-      console.log('Respuesta bruta del backend:', data);
+      const data = await response.json();
+      console.log('📨 Respuesta del servidor:', data);
 
-      if (!response.ok || !data.ok) {
+      if (!response.ok) {
+        // Mostrar mensaje específico del backend
+        throw new Error(data.msg || data.message || `Error ${response.status}: ${response.statusText}`);
+      }
+
+      if (!data.ok) {
         throw new Error(data.msg || 'Error al crear producto');
       }
 
       const productoId = data.producto?.IdProduct;
-      console.log('🆔 ID del producto creado:', productoId);
+      if (!productoId) {
+        throw new Error('El servidor no devolvió el ID del producto');
+      }
+
       return productoId;
 
     } catch (error: any) {
@@ -176,13 +213,21 @@ const AddProduct = () => {
             <div>
               <h4 className="mb-3">Inventory</h4>
               {/* <InventoryTab /> */}
-              <InventoryTab price={price} setPrice={setPrice} stock={stock} setStock={setStock} />
+              <InventoryTab price={price} setPrice={setPrice} stock={stock} setStock={setStock} priceCost={costPrice} setCostPrice={setCostPrice} />
             </div>
           </Col>
           <Col xs={12} xl={4}>
             <Row className="g-2">
               <Col xs={12} xl={12}>
-                <OrganizeFormCard category={category} setCategory={setCategory} className="mb-3" />
+                <OrganizeFormCard
+                  category={category}
+                  setCategory={setCategory}
+                  subcategory={subcategory}
+                  setSubcategory={setSubcategory}
+                  marca={marca}
+                  setMarca={setMarca}
+                  className="mb-3"
+                />
               </Col>
               {/* <Col xs={12} xl={12}>
                 <VariantFormCard />

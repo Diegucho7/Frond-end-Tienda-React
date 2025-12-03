@@ -12,15 +12,19 @@ export interface FilterTabItem {
 interface FilterTabProps {
   tabItems: FilterTabItem[];
   className?: string;
+  onTabChange?: (value: string) => void;
 }
 
-const FilterTab = ({ tabItems, className }: FilterTabProps) => {
+const FilterTab = ({ tabItems, className, onTabChange }: FilterTabProps) => {
   const [activeItem, setActiveItem] = useState('all');
 
   const handleClick = (item: FilterTabItem) => {
     setActiveItem(item.value);
     if (item.onClick) {
       item.onClick();
+    }
+    if (onTabChange) {
+      onTabChange(item.value);
     }
   };
 

@@ -10,15 +10,15 @@ type User = {
   lastname: string;
   email: string;
 };
+const API_URL = import.meta.env.VITE_API_URL;
 
 const ProfileDropdownMenu = ({ className }: { className?: string }) => {
 
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(localStorage.getItem('accessToken'));
+  const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('accessToken');
     // Redirige al login o a donde quieras
     // window.location.href = '/pages/authentication/card/sign-in';
     window.location.reload();
@@ -26,7 +26,7 @@ const ProfileDropdownMenu = ({ className }: { className?: string }) => {
   useEffect(() => {
     const renewToken = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/auth/renew/', {
+        const response = await fetch(`${API_URL}/api/auth/renew/`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ const ProfileDropdownMenu = ({ className }: { className?: string }) => {
         const data = await response.json();
         setToken(data.token);
         setUser(data.usuario[0]);
-        localStorage.setItem('accessToken', data.token);
+        localStorage.setItem('token', data.token);
 
       } catch (error) {
         // Error de red o servidor
@@ -134,7 +134,8 @@ const ProfileDropdownMenu = ({ className }: { className?: string }) => {
               </button>
             ) : (
               <Link
-                to="/pages/authentication/card/sign-in"
+                // to="/pages/authentication/card/sign-in"
+                to="/authentication/sign-in"
                 className="btn btn-phoenix-primary d-flex flex-center w-100"
               >
                 <FeatherIcon icon="log-in" className="me-2" size={16} />

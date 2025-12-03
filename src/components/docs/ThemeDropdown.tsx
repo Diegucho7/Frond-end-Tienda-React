@@ -9,7 +9,7 @@ const ThemeDropdown = () => {
   const {
     config: { theme },
     setConfig
-  } = useAppContext(); // import AppContext from 'src/context/Context.js'
+  } = useAppContext(); // import AppContext from 'src/context/context.js'
 
   const [iconLight, setIconLight] = useState(false);
   const [iconDark, setIconDark] = useState(false);

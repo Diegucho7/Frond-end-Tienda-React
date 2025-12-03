@@ -1,6 +1,7 @@
 import MainLayout from 'layouts/MainLayout';
 import Starter from 'pages/pages/Starter';
-import { Navigate, RouteObject, createBrowserRouter } from 'react-router';
+import { RouteObject, createBrowserRouter } from 'react-router';
+import { RoleGuard } from 'guards/RoleGuard';
 import ButtonExample from 'pages/modules/components/ButtonExample';
 import AccordionExample from 'pages/modules/components/AccordionExample';
 import AvatarExample from 'pages/modules/components/AvatarExample';
@@ -76,6 +77,7 @@ import Products from 'pages/apps/e-commerce/admin/Products';
 import Customers from 'pages/apps/e-commerce/admin/Customers';
 import Orders from 'pages/apps/e-commerce/admin/Orders';
 import OrderDetails from 'pages/apps/e-commerce/admin/OrderDetails';
+import Categories from 'pages/apps/e-commerce/admin/Categories';
 import Refund from 'pages/apps/e-commerce/admin/Refund';
 import CustomerDetails from 'pages/apps/e-commerce/admin/CustomerDetails';
 import CreateNew from 'pages/apps/project-management/CreateNew';
@@ -242,12 +244,13 @@ const routes: RouteObject[] = [
     element: <App />,
     children: [
       {
-        path: '/',
+        path: '/admin',
         element: (
-          <MainLayoutProvider>
-            <MainLayout />
-            {/* <Navigate to="/apps/e-commerce/customer/homepage" replace /> */}
-          </MainLayoutProvider>
+          <RoleGuard allowedRoles={['ADMIN']}>
+            <MainLayoutProvider>
+              <MainLayout />
+            </MainLayoutProvider>
+          </RoleGuard>
         ),
         children: [
           {
@@ -259,7 +262,7 @@ const routes: RouteObject[] = [
             )
           },
           {
-            path: '/dashboard',
+            path: 'dashboard',
             children: [
               {
                 path: 'project-management',
@@ -299,7 +302,7 @@ const routes: RouteObject[] = [
             ]
           },
           {
-            path: '/apps',
+            path: 'apps',
             children: [
               {
                 path: 'e-commerce/admin',
@@ -317,6 +320,10 @@ const routes: RouteObject[] = [
                     element: <Products />
                   },
                   {
+                    path: 'categories',
+                    element: <Categories />
+                  },
+                  {
                     path: 'customers',
                     element: <Customers />
                   },
@@ -325,7 +332,7 @@ const routes: RouteObject[] = [
                     element: <Orders />
                   },
                   {
-                    path: 'order-details',
+                    path: 'order-details/:id',
                     element: <OrderDetails />
                   },
                   {
@@ -588,7 +595,7 @@ const routes: RouteObject[] = [
             ]
           },
           {
-            path: '/pages',
+            path: 'pages',
             children: [
               {
                 path: 'starter',
@@ -688,7 +695,7 @@ const routes: RouteObject[] = [
             ]
           },
           {
-            path: '/modules',
+            path: 'modules',
             children: [
               {
                 path: 'tables',
@@ -1042,7 +1049,7 @@ const routes: RouteObject[] = [
             ]
           },
           {
-            path: '/documentation',
+            path: 'documentation',
             children: [
               {
                 path: 'getting-started',
@@ -1092,9 +1099,12 @@ const routes: RouteObject[] = [
 
       {
         element: <EcommerceLayout />,
-        // path: '/apps/e-commerce/customer/',
         path: '/',
         children: [
+          {
+            index: true,
+            element: <Homepage />
+          },
           {
             path: 'homepage',
             element: <Homepage />
@@ -1109,19 +1119,35 @@ const routes: RouteObject[] = [
           },
           {
             path: 'cart',
-            element: <Cart />
+            element: (
+              <RoleGuard allowedRoles={['USER', 'ADMIN']}>
+                <Cart />
+              </RoleGuard>
+            )
           },
           {
             path: 'checkout',
-            element: <Checkout />
+            element: (
+              <RoleGuard allowedRoles={['USER', 'ADMIN']}>
+                <Checkout />
+              </RoleGuard>
+            )
           },
           {
             path: 'shipping-info',
-            element: <ShippingInfo />
+            element: (
+              <RoleGuard allowedRoles={['USER', 'ADMIN']}>
+                <ShippingInfo />
+              </RoleGuard>
+            )
           },
           {
             path: 'profile',
-            element: <Profile />
+            element: (
+              <RoleGuard allowedRoles={['USER', 'ADMIN']}>
+                <Profile />
+              </RoleGuard>
+            )
           },
           {
             path: 'products-filter',
@@ -1129,19 +1155,35 @@ const routes: RouteObject[] = [
           },
           {
             path: 'wishlist',
-            element: <Wishlist />
+            element: (
+              <RoleGuard allowedRoles={['USER', 'ADMIN']}>
+                <Wishlist />
+              </RoleGuard>
+            )
           },
           {
             path: 'favorite-stores',
-            element: <FavoriteStores />
+            element: (
+              <RoleGuard allowedRoles={['USER', 'ADMIN']}>
+                <FavoriteStores />
+              </RoleGuard>
+            )
           },
           {
             path: 'order-tracking',
-            element: <OrderTracking />
+            element: (
+              <RoleGuard allowedRoles={['USER', 'ADMIN']}>
+                <OrderTracking />
+              </RoleGuard>
+            )
           },
           {
             path: 'invoice',
-            element: <Invoice />
+            element: (
+              <RoleGuard allowedRoles={['USER', 'ADMIN']}>
+                <Invoice />
+              </RoleGuard>
+            )
           }
         ]
       },
@@ -1284,6 +1326,39 @@ const routes: RouteObject[] = [
           {
             path: '500',
             element: <Error500 />
+          }
+        ]
+      },
+      {
+        path: '/authentication/',
+        children: [
+          {
+            path: 'sign-in',
+            element: <SimpleSignIn />
+          },
+          {
+            path: 'sign-up',
+            element: <SimpleSignUp />
+          },
+          {
+            path: 'sign-out',
+            element: <SimpleSignOut />
+          },
+          {
+            path: 'forgot-password',
+            element: <SimpleForgotPassword />
+          },
+          {
+            path: 'reset-password',
+            element: <SimpleResetPassword />
+          },
+          {
+            path: 'lock-screen',
+            element: <SimpleLockScreen />
+          },
+          {
+            path: '2FA',
+            element: <SimpleTwoFA />
           }
         ]
       },

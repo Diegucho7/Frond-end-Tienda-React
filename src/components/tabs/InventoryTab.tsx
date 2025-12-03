@@ -72,7 +72,7 @@ const navItems: NavItemType[] = [
   }
 ];
 
-const InventoryTab = ({ price, setPrice, stock, setStock, regularPrice, setRegularPrice }: any) => {
+const InventoryTab = ({ price, setPrice, stock, setStock, costPrice, setCostPrice }: any) => {
   return (
     <Tab.Container id="left-tabs-example" defaultActiveKey="pricing">
       <Row className="g-0 border-top border-bottom">
@@ -95,7 +95,7 @@ const InventoryTab = ({ price, setPrice, stock, setStock, regularPrice, setRegul
               <Row className="g-3">
                 <Col xs={12} lg={6}>
                   <h5 className="mb-2 text-body-highlight">Regular price</h5>
-                  <Form.Control type="text" placeholder="$$$" value={regularPrice} onChange={e => setRegularPrice(e.target.value)} />
+                  <Form.Control type="text" placeholder="$$$" value={costPrice} onChange={e => setCostPrice(e.target.value)} />
                 </Col>
                 <Col xs={12} lg={6}>
                   <h5 className="mb-2 text-body-highlight">Sale price</h5>
@@ -203,7 +203,7 @@ const InventoryTab = ({ price, setPrice, stock, setStock, regularPrice, setRegul
                     <Form.Check type="radio" id="fullfilledByPhoenix">
                       <Form.Check.Input type="radio" name="shipping" />
                       <Form.Check.Label className="text-body fs-8">
-                        Fullfilled by Phoenix
+                        {/*Fullfilled by Phoenix*/}
                         <Badge variant="phoenix" bg="warning" className="ms-2">
                           Recommended
                         </Badge>

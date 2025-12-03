@@ -172,7 +172,8 @@ export const necessaryPages = [
   {
     thumb: section27,
     pageName: 'Authentication',
-    pageLink: '/pages/authentication/simple/sign-in'
+    // pageLink: '/pages/authentication/simple/sign-in'
+    pageLink: '/authentication/sign-in'
   },
   {
     thumb: section26,

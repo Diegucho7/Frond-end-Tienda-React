@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ChangeEvent, ReactNode } from 'react';
 import { Form } from 'react-bootstrap';
 
 export interface CheckboxItemProps {
@@ -6,18 +6,22 @@ export interface CheckboxItemProps {
   name: string;
   label: string | ReactNode;
   value: string | number;
+  checked?: boolean;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const CheckboxItem = ({
   type = 'checkbox',
   name,
   label,
-  value
+  value,
+  checked,
+  onChange
 }: CheckboxItemProps) => {
   return (
     <Form.Check
       type={type}
-      id={String(value)}
+      id={`${name}-${value}`}
       className="mb-0 d-flex align-items-center gap-2"
     >
       <Form.Check.Input
@@ -25,6 +29,8 @@ const CheckboxItem = ({
         value={value}
         name={name}
         className="mt-0"
+        checked={checked}
+        onChange={onChange}
       />
       <Form.Check.Label className="d-block lh-sm fs-8 text-body fw-normal mb-0">
         {label}

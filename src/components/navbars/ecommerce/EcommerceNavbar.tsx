@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { categories } from 'data/e-commerce';
-import { useCallback, useLayoutEffect, useRef } from 'react';
+import { useCallback, useLayoutEffect, useRef, useMemo } from 'react';
 import {
   Card,
   Col,
@@ -16,64 +16,54 @@ import Scrollbar from 'components/base/Scrollbar';
 import classNames from 'classnames';
 import {
   faAngleDown,
-  faAngleRight,
-  faBars
+  faAngleRight
 } from '@fortawesome/free-solid-svg-icons';
+import { useAuth } from 'context/AuthContext';
 
 type NavItemType = {
   id: number;
   label: string;
   url: string;
+  adminOnly?: boolean;
 };
 
-const initNavItems: NavItemType[] = [
+const baseNavItems: NavItemType[] = [
   {
     id: 1,
     label: 'Home',
-    // url: '/apps/e-commerce/customer/homepage'
     url: '/homepage'
   },
-  // {
-  //   id: 2,
-  //   label: 'My Favorite Stores',
-  //   url: '/apps/e-commerce/customer/favorite-stores'
-  // },
   {
     id: 3,
     label: 'Productos',
-    // url: '/apps/e-commerce/customer/products-filter'
     url: '/products-filter'
   },
-  // {
-  //   id: 4,
-  //   label: 'Wishlist',
-  //   url: '/apps/e-commerce/customer/wishlist'
-  // },
-  // {
-  //   id: 5,
-  //   label: 'Shipping Info',
-  //   url: '/apps/e-commerce/customer/shipping-info'
-  // },
   {
     id: 6,
     label: 'Be a vendor',
-    url: '/apps/e-commerce/admin/add-product'
+    url: '/admin/apps/e-commerce/admin/add-product',
+    adminOnly: true // Solo visible para admins
   },
-  // {
-  //   id: 7,
-  //   label: 'Track order',
-  //   url: '/apps/e-commerce/customer/order-tracking'
-  // },
   {
     id: 8,
     label: 'Checkout',
     url: '/checkout'
-    // url: '/apps/e-commerce/customer/checkout'
   }
 ];
 
 const EcommerceNavbar = () => {
   const { pathname } = useLocation();
+  const { user } = useAuth();
+
+  // Filtrar items según el rol del usuario
+  const navItems = useMemo(() => {
+    return baseNavItems.filter(item => {
+      if (item.adminOnly) {
+        return user?.role === 'ADMIN';
+      }
+      return true;
+    });
+  }, [user]);
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const otherElsRef = useRef<HTMLDivElement | null>(null);
@@ -138,7 +128,7 @@ const EcommerceNavbar = () => {
 
           <Dropdown.Menu className="border border-translucent py-0 category-dropdown-menu">
             <Card className="border-0">
-              <Scrollbar style={{ maxHeight: 657}}>
+              <Scrollbar style={{ maxHeight: 657 }}>
                 <Card.Body className="p-6 pb-3">
                   <Row className="gx-7 gy-5 mb-5">
                     {categories.map(category => (
@@ -180,7 +170,7 @@ const EcommerceNavbar = () => {
           </Dropdown.Menu>
         </Dropdown>
         <Nav as="ul" className="justify-content-end align-items-center gap-5">
-          {initNavItems.map((item, index) => (
+          {navItems.map((item, index) => (
             <Nav.Item
               className="gap-3"
               key={item.id}
@@ -210,7 +200,7 @@ const EcommerceNavbar = () => {
             </Dropdown.Toggle>
 
             <Dropdown.Menu align="end" renderOnMount>
-              {initNavItems.map((item, index) => (
+              {navItems.map((item, index) => (
                 <Dropdown.Item
                   key={item.id}
                   as={Link}

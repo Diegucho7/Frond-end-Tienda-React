@@ -16,6 +16,10 @@ import useAdvanceTable from 'hooks/useAdvanceTable';
 import AdvanceTableProvider from 'providers/AdvanceTableProvider';
 import { ChangeEvent, useState, useEffect } from 'react';
 
+import { useNavigate } from "react-router";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 const tabItems: FilterTabItem[] = [
   {
     label: 'All',
@@ -72,6 +76,8 @@ const filterMenus: FilterMenu[] = [
 
 
 const Products = () => {
+  const navigate = useNavigate();
+
   const [productsData, setProductsData] = useState<ProductsTableProductType[]>([]);
 
 
@@ -79,7 +85,7 @@ const Products = () => {
 
     const tablaDatos = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/productos', {
+        const response = await fetch(`${API_URL}/api/productos`, {
           method: 'GET',
 
         });
@@ -88,7 +94,7 @@ const Products = () => {
         const mappedProducts: ProductsTableProductType[] = json.products.map((item: any) => ({
           idProduct: item.IdProduct,
           product: item.name,
-          productImage: `http://localhost:3000/api/uploads/productos/${item.imagenes[0]}`, // ajusta si tienes otra ruta
+          productImage: `${API_URL}/api/uploads/productos/${item.imagenes[0]}`, // ajusta si tienes otra ruta
           price: parseFloat(item.price),
           category: item.categoria, // puedes reemplazar con el nombre si tienes un mapa de categorías
           tags: [item.marca], // podrías agregar tags desde item.description si quieres
@@ -139,7 +145,10 @@ const Products = () => {
                   <FontAwesomeIcon icon={faFileExport} className="fs-9 me-2" />
                   Export
                 </Button>
-                <Button variant="primary">
+                <Button
+                  variant="primary"
+                  onClick={() => navigate("/admin/apps/e-commerce/admin/add-product")}
+                >
                   <FontAwesomeIcon icon={faPlus} className="me-2" />
                   Add product
                 </Button>

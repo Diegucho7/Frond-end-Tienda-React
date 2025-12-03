@@ -10,11 +10,13 @@ import Button from './Button';
 import imageIcon from 'assets/img/icons/image-icon.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { Dispatch, SetStateAction, PropsWithChildren } from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import AttachmentPreview, { FileAttachment } from 'components/common/AttachmentPreview';
 import { convertFileToAttachment } from 'helpers/utils';
 import ImageAttachmentPreview from 'components/common/ImageAttachmentPreview';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
+const API_URL = import.meta.env.VITE_API_URL;
 
 interface DropzoneProps {
   className?: string;
@@ -51,29 +53,38 @@ const Dropzone = ({
   const [files, setFiles] = useState<(File | string)[]>(defaultFiles || []);
   const [previews, setPreviews] = useState<FileAttachment[]>([]);
 
-  // ✅ función corregida
+  // ✅ función corregida con notificaciones
   const handleRemovePhoto = async (index: number) => {
-    const photo = files[index]; // antes usaba photos, que no existe
+    const photo = files[index];
 
     // Si es una URL (imagen ya guardada en servidor)
     if (typeof photo === 'string') {
       try {
         const fileName = photo.split('/').pop();
-        if (!fileName) return;
+        if (!fileName) {
+          toast.error('No se pudo identificar la imagen');
+          return;
+        }
 
-        const resp = await fetch(`http://localhost:3000/api/uploads/${fileName}`, {
+        const resp = await fetch(`${API_URL}/api/uploads/${fileName}`, {
           method: 'DELETE',
         });
 
         const data = await resp.json();
         if (!resp.ok) {
-          console.error('Error al eliminar imagen del servidor', data);
-        } else {
-          console.log('Imagen eliminada correctamente');
+          toast.error(data.msg || 'Error al eliminar imagen del servidor');
+          return;
         }
+
+        toast.success('Imagen eliminada correctamente');
       } catch (error) {
         console.error('Error al eliminar imagen', error);
+        toast.error('Error al eliminar la imagen');
+        return;
       }
+    } else {
+      // Es un archivo local (aún no guardado en servidor)
+      toast.success('Imagen removida');
     }
 
     // Elimina del estado local
@@ -95,12 +106,28 @@ const Dropzone = ({
 
   const imageOnly = useMemo(() => Boolean(accept && accept['image/*']), [accept]);
 
+  // Sincronizar defaultFiles solo cuando cambie la longitud o el contenido
   useEffect(() => {
-    if (defaultFiles.length > 0) setFiles(defaultFiles);
+    // Evitar bucle infinito: solo actualizar si hay diferencia real
+    const defaultFilesStr = JSON.stringify(defaultFiles.map(f => typeof f === 'string' ? f : f.name));
+    const filesStr = JSON.stringify(files.map(f => typeof f === 'string' ? f : f.name));
+
+    if (defaultFiles.length > 0 && defaultFilesStr !== filesStr) {
+      setFiles(defaultFiles);
+    }
   }, [defaultFiles]);
 
+  // Notificar al padre solo cuando files cambie por acción del usuario (no por defaultFiles)
+  const isInitialMount = useRef(true);
   useEffect(() => {
-    if (setPhotos) setPhotos(files);
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    // Solo notificar si setPhotos existe y no es la sincronización inicial
+    if (setPhotos) {
+      setPhotos(files);
+    }
   }, [files]);
 
   return (
@@ -155,7 +182,7 @@ const Dropzone = ({
               typeof file === 'string'
                 ? file.startsWith('http')
                   ? file
-                  : `http://localhost:3000/api/uploads/productos/${file}`
+                  : `${API_URL}/api/uploads/productos/${file}`
                 : URL.createObjectURL(file);
 
             return (

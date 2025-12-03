@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Dropdown } from 'react-bootstrap';
+const API_URL = import.meta.env.VITE_API_URL;
 
 interface Props {
   productId: string;
@@ -15,10 +16,10 @@ const ActionDropdownItems = ({ productId, onDelete }: Props) => {
     try {
       setLoading(true);
 
-      const response = await fetch(`http://localhost:3000/api/productos/${productId}`, {
+      const response = await fetch(`${API_URL}/api/productos/${productId}`, {
         method: 'DELETE',
         headers: {
-          'x-token': localStorage.getItem('accessToken') ?? ''
+          'x-token': localStorage.getItem('token') ?? ''
         }
       });
 
