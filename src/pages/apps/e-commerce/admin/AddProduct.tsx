@@ -213,7 +213,7 @@ const AddProduct = () => {
             <div>
               <h4 className="mb-3">Inventory</h4>
               {/* <InventoryTab /> */}
-              <InventoryTab price={price} setPrice={setPrice} stock={stock} setStock={setStock} priceCost={costPrice} setCostPrice={setCostPrice} />
+              <InventoryTab price={price} setPrice={setPrice} stock={stock} setStock={setStock} costPrice={costPrice} setCostPrice={setCostPrice} />
             </div>
           </Col>
           <Col xs={12} xl={4}>

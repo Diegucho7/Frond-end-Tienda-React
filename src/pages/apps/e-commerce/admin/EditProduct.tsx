@@ -16,6 +16,7 @@ const EditProduct = () => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
+    const [costPrice, setCostPrice] = useState('');
     const [stock, setStock] = useState('');
     const [marca, setMarca] = useState('');
     const [code, setCode] = useState('');
@@ -45,6 +46,7 @@ const EditProduct = () => {
                 setName(producto.name || '');
                 setDescription(producto.description || '');
                 setPrice(producto.price?.toString() || '');
+                setCostPrice(producto.costPrice?.toString() || producto.regularPrice?.toString() || '');
                 setStock(producto.stock?.toString() || '');
                 setMarca(producto.marca || '');
                 setCode(producto.code || '');
@@ -127,7 +129,8 @@ const EditProduct = () => {
                     category,
                     subcategory,
                     price: Number(price),
-                    regularPrice: Number(price),
+                    costPrice: Number(costPrice) || Number(price),
+                    regularPrice: Number(costPrice) || Number(price),
                     salePrice: Number(price),
                     description: description || 'Sin descripción',
                     stock: Number(stock),
@@ -247,7 +250,7 @@ const EditProduct = () => {
                         <div>
                             <h4 className="mb-3">Inventory</h4>
                             {/* <InventoryTab /> */}
-                            <InventoryTab price={price} setPrice={setPrice} stock={stock} setStock={setStock} />
+                            <InventoryTab price={price} setPrice={setPrice} stock={stock} setStock={setStock} costPrice={costPrice} setCostPrice={setCostPrice} />
                         </div>
                     </Col>
                     <Col xs={12} xl={4}>
