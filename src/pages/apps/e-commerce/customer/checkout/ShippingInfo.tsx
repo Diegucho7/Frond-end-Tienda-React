@@ -165,7 +165,7 @@ const ShippingInfo = () => {
       const body = {
         nombre: nombre,
         direccion: `${direccion1}${direccion2 ? `, Referencia: ${direccion2}` : ''}, ${ciudad}, ${provincia}${codigoPostal ? ` - ${codigoPostal}` : ''}`,
-        telefono: telefono,
+        telefono: Number(telefono),
         metodo: "efectivo",
         subtotal: summary.subtotal,
         impuestos: summary.taxes,
@@ -287,9 +287,12 @@ const ShippingInfo = () => {
                   </Form.Label>
                   <Form.Control
                     type="tel"
-                    placeholder="+593 999999999"
+                    placeholder="0999999999"
                     value={telefono}
-                    onChange={(e) => setTelefono(e.target.value)}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, '');
+                      setTelefono(value);
+                    }}
                     required
                   />
                 </Form.Group>

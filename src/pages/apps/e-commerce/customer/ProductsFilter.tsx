@@ -133,7 +133,9 @@ const ProductsFilter = () => {
           // Limpiar subcategorías null
           const categoriasLimpias = data.categorias.map((cat: Categoria) => ({
             ...cat,
-            subcategorias: (cat.subcategorias || []).filter((sub: Subcategoria) => sub && sub.id)
+            subcategorias: Array.isArray(cat.subcategorias)
+              ? cat.subcategorias.filter((sub: Subcategoria) => sub && sub.id)
+              : []
           }));
           setCategorias(categoriasLimpias);
         }

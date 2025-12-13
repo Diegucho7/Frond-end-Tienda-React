@@ -2,9 +2,10 @@ import { useState } from 'react';
 import Button from 'components/base/Button';
 import { Col, Form, Row } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
-const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const [formData, setFormData] = useState({
     name: "",
@@ -56,7 +57,8 @@ const API_URL = import.meta.env.VITE_API_URL;
       }
 
       localStorage.setItem("token", data.token);
-      navigate("/dashboard");
+      toast.success("¡Registro exitoso! Bienvenido");
+      navigate("/");
 
     } catch (err) {
       setError("Error al conectar con el servidor");
@@ -79,7 +81,7 @@ const API_URL = import.meta.env.VITE_API_URL;
             <Form.Group className="text-start">
               <Form.Label htmlFor="name">Name</Form.Label>
               <Form.Control id="name" type="text" placeholder="Name"
-                            value={formData.name} onChange={handleChange} />
+                value={formData.name} onChange={handleChange} />
             </Form.Group>
           </Col>
 
@@ -87,7 +89,7 @@ const API_URL = import.meta.env.VITE_API_URL;
             <Form.Group className="text-start">
               <Form.Label htmlFor="lastname">Lastname</Form.Label>
               <Form.Control id="lastname" type="text" placeholder="Lastname"
-                            value={formData.lastname} onChange={handleChange} />
+                value={formData.lastname} onChange={handleChange} />
             </Form.Group>
           </Col>
         </Row>
@@ -95,7 +97,7 @@ const API_URL = import.meta.env.VITE_API_URL;
         <Form.Group className="mb-3 text-start">
           <Form.Label htmlFor="email">Email address</Form.Label>
           <Form.Control id="email" type="email" placeholder="name@example.com"
-                        value={formData.email} onChange={handleChange} />
+            value={formData.email} onChange={handleChange} />
         </Form.Group>
 
         <Row className="g-3 mb-3">
@@ -103,7 +105,7 @@ const API_URL = import.meta.env.VITE_API_URL;
             <Form.Group>
               <Form.Label htmlFor="password">Password</Form.Label>
               <Form.Control id="password" type="password" placeholder="Password"
-                            value={formData.password} onChange={handleChange} />
+                value={formData.password} onChange={handleChange} />
             </Form.Group>
           </Col>
 
